@@ -13,14 +13,6 @@ import { Utils } from "../../utils";
 import { Building } from "./building";
 import { EnemieManager } from "../../enemies/enemieManager";
 
-// export enum EBuilding {
-//     WOOD_WALL,
-//     STONE_WALL,
-//     IRON_WALL,
-//     WOOD_FLOOR,
-//     STONE_FLOOR
-// }
-
 export class BuildingManager {
     static buildingSize = 30;
     static woodColor = [132, 95, 76];
@@ -255,9 +247,13 @@ export class BuildingManager {
     ): boolean {
         const gameObjects = MapManager.gameObjects;
         const mapDimensions = MapManager.mapDimensions;
+        const squareObject = { 
+            pos: p5.createVector(x, y), 
+            size: BuildingManager.buildingSize
+        };
         if (
             buidlType === "wall" &&
-            PlayerManager.player.isCollidingSquare(new WoodWall(x, y, p5))
+            PlayerManager.player.isCollidingSquare(squareObject)
         ) {
             return false;
         }
@@ -274,7 +270,7 @@ export class BuildingManager {
                 case ECollider.CIRCLE:
                     if (
                         Utils.collideSquareCircle(
-                            new WoodWall(x, y, p5),
+                            squareObject,
                             gameObjects[i]
                         )
                     ) {
@@ -285,7 +281,7 @@ export class BuildingManager {
                 case ECollider.NONE_SQUARE:
                     if (
                         Utils.collideSquareSquare(
-                            new WoodWall(x, y, p5),
+                            squareObject,
                             gameObjects[i]
                         )
                     ) {
@@ -294,11 +290,17 @@ export class BuildingManager {
                     break;
             }
         }
-        for(let i=0;i<EnemieManager.enemies.length;i++){
-            if(Utils.collideSquareCircle(
-                new WoodWall(x, y, p5),
-                EnemieManager.enemies[i]
-            )) {
+        for (let i = 0; i < EnemieManager.enemies.length; i++) {
+            const squareObject = { 
+                pos: p5.createVector(x, y), 
+                size: BuildingManager.buildingSize
+            };
+            if (
+                Utils.collideSquareCircle(
+                    squareObject,
+                    EnemieManager.enemies[i]
+                )
+            ) {
                 return false;
             }
         }

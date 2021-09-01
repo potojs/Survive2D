@@ -27,6 +27,9 @@ export interface IGameObject {
     x: number;
     y: number;
     type: EGameObject;
+    woodLeft?: number;
+    stoneLeft?: number;
+    ironLeft?: number;
 }
 
 export class MapManager {
@@ -90,6 +93,7 @@ export class MapManager {
         for (let i = 0; i < gameObjects.length; i++) {
             gameObjects[i].show();
             if (gameObjects[i].destroyed) {
+                gameObjects[i].quadtreeUser.remove();
                 gameObjects.splice(i, 1);
                 i--;
             }
@@ -107,28 +111,43 @@ export class MapManager {
                 const y = gameObject.y;
                 switch (gameObject.type) {
                     case EGameObject.TREE:
-                        MapManager.gameObjects.push(new Tree(x, y, p5));
+                        const tree = new Tree(x, y, p5);
+                        tree.woodLeft = gameObject.woodLeft!;
+                        MapManager.gameObjects.push(tree);
                         break;
                     case EGameObject.ROCK:
-                        MapManager.gameObjects.push(new Rock(x, y, p5));
+                        const rock = new Rock(x, y, p5);
+                        rock.stoneLeft = gameObject.stoneLeft!;
+                        MapManager.gameObjects.push(rock);
                         break;
                     case EGameObject.IRON:
-                        MapManager.gameObjects.push(new Iron(x, y, p5));
+                        const iron = new Iron(x, y, p5);
+                        iron.ironLeft = gameObject.ironLeft!;
+                        MapManager.gameObjects.push(iron);
                         break;
                     case EGameObject.WOOD_FLOOR:
                         MapManager.gameObjects.push(new WoodFloor(x, y, p5));
                         break;
-                    case EGameObject.WOOD_WALL:
-                        MapManager.gameObjects.push(new WoodWall(x, y, p5));
+                    case EGameObject.WOOD_WALL: {
+                            const wall = new WoodWall(x, y, p5);
+                            wall.woodLeft = gameObject.woodLeft!;
+                            MapManager.gameObjects.push(wall);
+                        }
                         break;
                     case EGameObject.STONE_FLOOR:
                         MapManager.gameObjects.push(new StoneFloor(x, y, p5));
                         break;
-                    case EGameObject.STONE_WALL:
-                        MapManager.gameObjects.push(new StoneWall(x, y, p5));
+                    case EGameObject.STONE_WALL: {
+                            const wall = new StoneWall(x, y, p5);
+                            wall.stoneLeft = gameObject.stoneLeft!;
+                            MapManager.gameObjects.push(wall);
+                        }
                         break;
-                    case EGameObject.IRON_WALL:
-                        MapManager.gameObjects.push(new IronWall(x, y, p5));
+                    case EGameObject.IRON_WALL: {
+                            const wall = new IronWall(x, y, p5);
+                            wall.ironLeft = gameObject.ironLeft!;
+                            MapManager.gameObjects.push(wall);
+                        }
                         break;
                 }
             }
@@ -150,7 +169,7 @@ export class MapManager {
                 MapManager.gameObjects.push(new Tree(x, y, p5));
                 MapManager.objectDensity.tree.count++;
             }
-        }, 500);
+        }, 1000);
         setInterval(() => {
             if (
                 !GameManager.gameEnded &&
@@ -162,7 +181,7 @@ export class MapManager {
                 MapManager.gameObjects.push(new Rock(x, y, p5));
                 MapManager.objectDensity.rock.count++;
             }
-        }, 2000);
+        }, 1500);
         setInterval(() => {
             if (
                 !GameManager.gameEnded &&
@@ -174,7 +193,7 @@ export class MapManager {
                 MapManager.gameObjects.push(new Iron(x, y, p5));
                 MapManager.objectDensity.iron.count++;
             }
-        }, 5000);
+        }, 4000);
     }
     static genIron(p5: P5) {
         const boxSize = MapManager.objectDensity.iron.boxSize;

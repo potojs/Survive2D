@@ -1,5 +1,5 @@
 import P5 from "p5";
-import { EGameObject } from "../../game/mapManager";
+import { EGameObject, IGameObject } from "../../game/mapManager";
 import { MalayTool } from "../../player/tools/malayTool";
 import { Tool } from "../../player/tools/tool";
 import { Utils } from "../../utils";
@@ -20,7 +20,13 @@ export class StoneWall extends Building {
             stone: 2,
             wood: 0, iron: 0
         }, true, "Stone Wall", EGameObject.STONE_WALL, p5);
-        this.stoneLeft = 20;
+        this.stoneLeft = 30;
+    }
+    getData(): IGameObject {
+        return {
+            ...super.getData(),
+            stoneLeft: this.stoneLeft
+        }
     }
     show() {
         const p5 = this.p5;

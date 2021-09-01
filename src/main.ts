@@ -5,11 +5,12 @@ import { SpriteManager } from "./classes/game/spriteManager";
 import { GameManager } from "./classes/game/gameManager";
 import Quadtree from "quadtree-lib";
 import { MapManager } from "./classes/game/mapManager";
+import { IQuadtreeItem } from "./classes/quadtreeUser";
 
-export const quadtree = new Quadtree({
+export const quadtree = new Quadtree<IQuadtreeItem>({
     width: MapManager.mapDimensions.w,
     height: MapManager.mapDimensions.h,
-})
+});
 
 const sketch = (p5: P5) => {
     let canvas: P5.Renderer;
@@ -58,7 +59,7 @@ const startNewGameBtn = document.querySelector(
 const continueGameBtn = document.querySelector(
     ".continue-btn"
 ) as HTMLButtonElement;
-if(localStorage.length === 0) {
+if (localStorage.length === 0) {
     continueGameBtn.classList.add("disabled");
 }
 startNewGameBtn.addEventListener("click", () => {
@@ -73,8 +74,7 @@ startNewGameBtn.addEventListener("click", () => {
         startGame();
     }
 });
-continueGameBtn.addEventListener("click", ()=>{
+continueGameBtn.addEventListener("click", () => {
     startMenu.classList.add("not-visible");
     startGame();
-})
-
+});

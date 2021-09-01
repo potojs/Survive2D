@@ -16,8 +16,8 @@ export class Pistol extends Gun {
             "Pistol",
             ETool.PISTOL,
             {
-                wood: 300,
-                stone: 300,
+                wood: 500,
+                stone: 500,
                 iron: 0,
             },
         );

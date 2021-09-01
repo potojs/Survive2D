@@ -1,5 +1,5 @@
 import P5 from "p5";
-import { EGameObject } from "../game/mapManager";
+import { EGameObject, IGameObject } from "../game/mapManager";
 import { SpriteManager } from "../game/spriteManager";
 import { PlayerManager } from "../player/playerManager";
 import { MalayTool } from "../player/tools/malayTool";
@@ -10,7 +10,7 @@ import { ECollider, GameObject } from "./gameObject";
 
 export class Rock extends GameObject {
     static size = 60;
-    static stoneAmtPerRock = 10;
+    static stoneAmtPerRock = 20;
     
     public stoneLeft: number;
     private apperanceInfo: {
@@ -27,6 +27,12 @@ export class Rock extends GameObject {
         }
         this.stoneLeft = Rock.stoneAmtPerRock;
     }
+    getData(): IGameObject {
+        return {
+            ...super.getData(),
+            stoneLeft: this.stoneLeft
+        }
+    }
     getHitBy(tool: Tool, isPlayer: boolean, materialCollected: { wood: number, stone: number, iron: number }) {
         const player = PlayerManager.player;
 
@@ -35,6 +41,7 @@ export class Rock extends GameObject {
         
         if(this.stoneLeft <= 0) {
             this.destroyed = true;
+            this.quadtreeUser.remove();
         }
         
         materialCollected.stone = Utils.format(materialCollected.stone, 1);

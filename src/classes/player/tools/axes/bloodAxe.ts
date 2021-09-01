@@ -9,9 +9,9 @@ export class BloodAxe extends Axe {
         super(
             {
                 damage: 20,
-                wood: 15,
-                stone: 3,
-                iron: 1.5
+                wood: 10,
+                stone: 5,
+                iron: 2.5
             },
             500,
             SpriteManager.sprites.enemies.weapons.bloodAxe,

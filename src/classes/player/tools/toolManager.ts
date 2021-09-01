@@ -103,11 +103,14 @@ export class ToolManager {
             const unlockedTools = JSON.parse(
                 localStorage.getItem("tools") as string
             ).unlockedTools;
+
             const notVisibleTools = JSON.parse(
                 localStorage.getItem("tools") as string
             ).notVisibleTools;
+
             ToolManager.unlockedTools = unlockedTools;
             ToolManager.notVisibleTools = notVisibleTools;
+
             for(const tool of notVisibleTools) {
                 const toolBtn = (
                     document.querySelector(`.${tool}`) as HTMLDivElement
@@ -155,7 +158,6 @@ export class ToolManager {
                 1
             );
             ToolManager.notVisibleTools.push(oldToolBtnClass);
-            console.log(ToolManager.unlockedTools);
 
             player.woodAmt -= materials.wood;
             player.stoneAmt -= materials.stone;

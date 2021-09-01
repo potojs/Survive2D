@@ -39,7 +39,7 @@ export class Enemie extends MovingObject {
         p5.rotate(this.angle);
         p5.image(this.img, 0, 0, this.size * 2, this.size * 2);
         p5.pop();
-        if(this.health < this.fullHealth) {
+        if (this.health < this.fullHealth) {
             this.showHealth();
         }
     }
@@ -64,34 +64,45 @@ export class Enemie extends MovingObject {
     update() {
         const p5 = this.p5;
         const player = PlayerManager.player;
-        const gameObjects = MapManager.gameObjects;
-        let gameObjectsCollidedWith: GameObject[] = [];
 
         this.angle = p5.atan2(
             player.pos.y - this.pos.y,
             player.pos.x - this.pos.x
         );
+
         this.pos.x += this.vel.x;
-        for (let i = 0; i < gameObjects.length; i++) {
-            gameObjectsCollidedWith = gameObjectsCollidedWith.concat(
-                this.collide(gameObjects[i], {
-                    x: this.p5.abs(this.vel.x) / this.vel.x,
-                    y: 0,
-                })
-            );
+        this.quadtreeUser.item.x += this.vel.x;
+
+        const collidingWithX = this.quadtreeUser
+            .getCollision()
+            .filter((o) => !(o instanceof Bullet));
+        for (let i = 0; i < collidingWithX.length; i++) {
+            this.collide(collidingWithX[i], {
+                x: this.p5.abs(this.vel.x) / this.vel.x,
+                y: 0,
+            });
         }
+        this.quadtreeUser.item.x = this.pos.x + MapManager.mapDimensions.w / 2;
         this.pos.y += this.vel.y;
-        for (let i = 0; i < gameObjects.length; i++) {
-            gameObjectsCollidedWith = gameObjectsCollidedWith.concat(
-                this.collide(gameObjects[i], {
-                    x: 0,
-                    y: this.p5.abs(this.vel.y) / this.vel.y,
-                })
-            );
+        this.quadtreeUser.updateBy(0, this.vel.y);
+
+        const collidingWithY = this.quadtreeUser
+            .getCollision()
+            .filter((o) => !(o instanceof Bullet));
+        for (let i = 0; i < collidingWithY.length; i++) {
+            this.collide(collidingWithY[i], {
+                x: 0,
+                y: this.p5.abs(this.vel.y) / this.vel.y,
+            });
         }
+        this.quadtreeUser.item.y = this.pos.y + MapManager.mapDimensions.h / 2;
         this.boundries();
+        this.quadtreeUser.update(this.pos.x, this.pos.y);
         const weapon = ToolManager.getWeapon(this) as Tool;
-        if (gameObjectsCollidedWith.length > 0) {
+        if (
+            collidingWithX.filter((o) => !(o instanceof Enemie)).length > 0 ||
+            collidingWithY.filter((o) => !(o instanceof Enemie)).length > 0
+        ) {
             weapon.hit();
         }
     }
@@ -107,6 +118,7 @@ export class Enemie extends MovingObject {
         this.health -= damage;
         if (this.health <= 0) {
             this.destroyed = true;
+            this.quadtreeUser.remove();
         }
     }
     follow(player: Player) {
@@ -128,7 +140,7 @@ export class Enemie extends MovingObject {
             x: this.pos.x,
             y: this.pos.y,
             health: this.health,
-            type: this.enemieType
-        }
+            type: this.enemieType,
+        };
     }
 }

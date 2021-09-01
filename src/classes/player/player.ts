@@ -10,6 +10,7 @@ import { PlayerManager } from "./playerManager";
 import { ParticuleManager } from "../particules/particuleManager";
 import { GameManager } from "../game/gameManager";
 import { EnemieManager } from "../enemies/enemieManager";
+import { quadtree } from "../../main";
 
 export class Player extends MovingObject {
     public selectedTool: ETool;
@@ -56,22 +57,30 @@ export class Player extends MovingObject {
         if(!GameManager.isNight && EnemieManager.enemies.length === 0) {
             this.health = Math.min(this.health + 0.5, 100);
         }
-        const gameObjects = MapManager.gameObjects;
         this.pos.x += this.vel.x;
-        for (let i = 0; i < gameObjects.length; i++) {
-            this.collide(gameObjects[i], {
+        this.quadtreeUser.updateBy(this.vel.x);
+        
+        const collidingWithX = this.quadtreeUser.getCollision();
+        for (let i = 0; i < collidingWithX.length; i++) {
+            this.collide(collidingWithX[i], {
                 x: this.p5.abs(this.vel.x) / this.vel.x,
                 y: 0,
             });
         }
+        this.quadtreeUser.update(this.pos.x, this.pos.y);
         this.pos.y += this.vel.y;
-        for (let i = 0; i < gameObjects.length; i++) {
-            this.collide(gameObjects[i], {
+        this.quadtreeUser.updateBy(0, this.vel.y);
+
+        const collidingWithY = this.quadtreeUser.getCollision();
+        for (let i = 0; i < collidingWithY.length; i++) {
+            this.collide(collidingWithY[i], {
                 x: 0,
                 y: this.p5.abs(this.vel.y) / this.vel.y,
             });
         }
+        this.quadtreeUser.item.y = this.pos.y + MapManager.mapDimensions.h/2;
         this.boundries();
+        this.quadtreeUser.update(this.pos.x, this.pos.y);
         if (Math.abs(this.vel.mag() - 0) > 0.1) {
             UIManager.sellingMenuState = ESellingMenu.MOUSE_OUT;
         }

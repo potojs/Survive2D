@@ -1,5 +1,5 @@
 import P5 from "p5";
-import { EGameObject } from "../game/mapManager";
+import { EGameObject, IGameObject } from "../game/mapManager";
 import { SpriteManager } from "../game/spriteManager";
 import { PlayerManager } from "../player/playerManager";
 import { MalayTool } from "../player/tools/malayTool";
@@ -28,6 +28,12 @@ export class Iron extends GameObject {
         }
         this.ironLeft = Iron.ironAmt;
     }
+    getData(): IGameObject {
+        return {
+            ...super.getData(),
+            ironLeft: this.ironLeft
+        }
+    }
     getHitBy(tool: Tool, isPlayer: boolean, materialCollected: { wood: number, stone: number, iron: number }) {
         
         materialCollected.iron += Math.min((tool as MalayTool).damage.iron, this.ironLeft);
@@ -35,6 +41,7 @@ export class Iron extends GameObject {
         
         if(this.ironLeft <= 0) {
             this.destroyed = true;
+            this.quadtreeUser.remove();
             if(isPlayer) {
                 const player = PlayerManager.player;
                 materialCollected.stone += Iron.stoneAmt;

@@ -5,9 +5,9 @@ import { Enemie } from "../enemie";
 import { EEnemie } from "../enemieManager";
 
 export class Demon extends Enemie {
-    static health = 80;
+    static health = 60;
     static size = 30;
-    static speed = 4.5;
+    static speed = 4;
     static distToPlayer = 10;
 
     constructor(x: number, y: number, p5: P5, health?: number) {

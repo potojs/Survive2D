@@ -33,10 +33,35 @@ export class UIManager {
         UIManager.setupBuildingMenu();
         UIManager.setupSellingMenu();
         const player = PlayerManager.player;
-        const eltClass = `.${ToolManager.getPlayerTool(player.selectedTool)
-            .name.toLowerCase()
-            .replace(" ", "-")}-tool`;
-        (document.querySelector(eltClass) as HTMLDivElement).classList.add("selected");
+        document
+            .querySelector(".building-menu")!
+            .classList.remove("closed");
+        switch (player.selectedTool) {
+            case ETool.WOOD_WALL:
+                (document.querySelector(".wood-wall")!).classList.add("selected");
+                break;
+            case ETool.STONE_WALL:
+                (document.querySelector(".stone-wall")!).classList.add("selected");
+                break;
+            case ETool.IRON_WALL:
+                (document.querySelector(".iron-wall")!).classList.add("selected");
+                break;
+            case ETool.WOOD_FLOOR:
+                (document.querySelector(".wood-floor")!).classList.add("selected");
+                break;
+            case ETool.STONE_FLOOR:
+                (document.querySelector(".stone-floor")!).classList.add("selected");
+                break;
+            default: 
+                (document.querySelector(".wood-wall")!).classList.add("selected");
+                document
+                    .querySelector(".building-menu")!
+                    .classList.add("closed");
+                const eltClass = `.${ToolManager.getPlayerTool(player.selectedTool)
+                    .name.toLowerCase()
+                    .replace(" ", "-")}-tool`;
+                (document.querySelector(eltClass) as HTMLDivElement).classList.add("selected");
+        }
 
     }
     static showPlayerHealth() {
@@ -137,6 +162,7 @@ export class UIManager {
             }
             for (const building of gameObjects) {
                 if (building === selledBuilding) {
+                    building.quadtreeUser.remove();
                     gameObjects.splice(gameObjects.indexOf(building), 1);
                     return;
                 }

@@ -46,6 +46,7 @@ export class BulletManager {
         for (let i = 0; i < BulletManager.bullets.length; i++) {
             BulletManager.bullets[i].update();
             if (BulletManager.bullets[i].destroyed) {
+                BulletManager.bullets[i].quadtreeUser.remove();
                 BulletManager.bullets.splice(i, 1);
                 i--;
             }

@@ -3,13 +3,12 @@ import { quadtree } from "../main";
 import { EGameObject, MapManager } from "./game/mapManager";
 import { ECollider, GameObject } from "./gameObjects/gameObject";
 import { QuadtreeUser } from "./quadtreeUser";
-import { Utils } from "./utils";
+import { ICollidableObject, Utils } from "./utils";
 
 export class MovingObject extends GameObject {
     public pos: P5.Vector;
     public vel: P5.Vector;
-    public quadtreeUser: QuadtreeUser;
-
+    
     constructor(
         x: number, 
         y: number,
@@ -21,7 +20,7 @@ export class MovingObject extends GameObject {
         super(x, y, ECollider.CIRCLE, size, EGameObject.MOVING_OBJECT, p5);
         this.pos = p5.createVector(x, y);
         this.vel = p5.createVector();
-        this.quadtreeUser = new QuadtreeUser(x, y, size, ECollider.CIRCLE); 
+
     }
     boundries() {
         const width = MapManager.mapDimensions.w;
@@ -39,12 +38,12 @@ export class MovingObject extends GameObject {
             this.pos.y =  height/2-this.size
         }
     }
-    isCollidingCircle(object: GameObject): boolean {
+    isCollidingCircle(object: ICollidableObject<P5.Vector>): boolean {
         return (
             P5.Vector.dist(object.pos, this.pos) < this.size + object.size
         );
     }
-    isCollidingSquare(object: GameObject) {
+    isCollidingSquare(object: ICollidableObject<P5.Vector>) {
         return (
             Utils.collideSquareCircle(object, this)
         )
@@ -87,5 +86,6 @@ export class MovingObject extends GameObject {
     }
     update() {
         this.pos.add(this.vel);
+
     }
 }

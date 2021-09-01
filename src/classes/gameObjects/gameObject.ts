@@ -1,6 +1,7 @@
 import P5 from "p5";
 import { EGameObject, IGameObject } from "../game/mapManager";
 import { Tool } from "../player/tools/tool";
+import { QuadtreeUser } from "../quadtreeUser";
 
 export enum ECollider {
     SQUARE,
@@ -10,7 +11,8 @@ export enum ECollider {
 
 export class GameObject {
     pos: P5.Vector;
-    public destroyed: boolean
+    public destroyed: boolean;
+    public quadtreeUser: QuadtreeUser;
 
     constructor(
         x: number,
@@ -22,6 +24,7 @@ export class GameObject {
     ){
         this.pos = p5.createVector(x, y);
         this.destroyed = false;
+        this.quadtreeUser = new QuadtreeUser(x, y, size, colliderShape, this); 
     }
     getData(): IGameObject {
         return {

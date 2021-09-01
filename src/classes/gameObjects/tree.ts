@@ -1,5 +1,5 @@
 import P5 from "p5";
-import { EGameObject } from "../game/mapManager";
+import { EGameObject, IGameObject } from "../game/mapManager";
 import { SpriteManager } from "../game/spriteManager";
 import { PlayerManager } from "../player/playerManager";
 import { MalayTool } from "../player/tools/malayTool";
@@ -29,12 +29,19 @@ export class Tree extends GameObject {
         }
         this.woodLeft = Tree.woodAmtPerTree;
     }
+    getData(): IGameObject {
+        return {
+            ...super.getData(),
+            woodLeft: this.woodLeft
+        }
+    }
     getHitBy(tool: Tool, isPlayer: boolean, materialCollected: { wood: number, stone: number, iron: number }) {
         materialCollected.wood+=Math.min((tool as MalayTool).damage.wood, this.woodLeft);
         this.woodLeft-=(tool as MalayTool).damage.wood;
         
         if(this.woodLeft <= 0) {
             this.destroyed = true;
+            this.quadtreeUser.remove();
         }
         
         materialCollected.wood = Utils.format(materialCollected.wood, 1);

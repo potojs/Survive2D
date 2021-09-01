@@ -1,4 +1,5 @@
 import P5 from "p5";
+import { Enemie } from "../../../../enemies/enemie";
 import { EnemieManager } from "../../../../enemies/enemieManager";
 import { MapManager } from "../../../../game/mapManager";
 import { UIManager } from "../../../../game/uiManager";
@@ -22,7 +23,6 @@ export class Bullet extends MovingObject {
         p5: P5
     ) {
         super(x, y, angle, size, speed, p5);
-        const player = PlayerManager.player;
         this.vel = P5.Vector.fromAngle(angle, speed);
         this.posHistory = [];
         this.distanceTraveled = 0;
@@ -50,34 +50,19 @@ export class Bullet extends MovingObject {
     }
     update() {
         super.update();
+        this.quadtreeUser.update(this.pos.x, this.pos.y);
         this.distanceTraveled += this.speed;
         if (this.distanceTraveled >= this.maxRange) {
             this.destroyed = true;
         } else {
-            const gameObjects = MapManager.gameObjects;
-            for (let i = 0; i < gameObjects.length; i++) {
-                switch (gameObjects[i].colliderShape) {
-                    case ECollider.CIRCLE:
-                        if (
-                            P5.Vector.dist(gameObjects[i].pos, this.pos) <=
-                            this.size + gameObjects[i].size
-                        ) {
-                            this.destroyed = true;
-                            return;
-                        }
-                        break;
-                    case ECollider.SQUARE:
-                        if(Utils.collideSquareCircle(gameObjects[i], this)) {
-                            this.destroyed = true;
-                            return;
-                        }
-                        break;
-                }
-            }
-            for(const enemie of EnemieManager.enemies) {
-                if(!enemie.destroyed && P5.Vector.dist(this.pos, enemie.pos) < this.size + enemie.size) {
-                    enemie.takeDamage(this);
+            const colliding = this.quadtreeUser.getCollision();
+            
+            for (let i = 0; i < colliding.length; i++) {
+                if(!(colliding[i] instanceof Bullet)){
                     this.destroyed = true;
+                    if(colliding[i] instanceof Enemie && !colliding[i].destroyed) {
+                        (colliding[i] as Enemie).takeDamage(this);
+                    }
                 }
             }
         }

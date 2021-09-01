@@ -9,7 +9,7 @@ export class StoneSword extends Sword {
                 wood: 1,
                 stone: 0.5,
                 iron: 0,
-                damage: 30,
+                damage: 45,
             },
             SpriteManager.sprites.player.tools.stoneSword,
             300,

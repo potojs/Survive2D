@@ -32,19 +32,19 @@ export class EnemieManager {
         mediumZombie: 5000,
         fatZombie: 10000,
         demon: 10000,
-        papaDemon: 60000,
+        papaDemon: 40000,
     };
     static enemieSpawnDayStart = {
         mediumZombie: 0,
         fatZombie: 2,
         demon: 5,
-        papaDemon: 10,
+        papaDemon: 8,
     };
     static enemieSpawnAcceleration = {
-        mediumZombie: 50,
+        mediumZombie: 60,
         fatZombie: 50,
         demon: 50,
-        papaDemon: 50,
+        papaDemon: 100,
     };
     static enemieSpawnIntervalsMin = {
         mediumZombie: 1000,
@@ -178,6 +178,7 @@ export class EnemieManager {
                     ),
                     1
                 );
+                enemies[i].quadtreeUser.remove();
                 enemies.splice(i, 1);
                 EnemieManager.numberEnemiesKilled++;
             }

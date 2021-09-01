@@ -105,7 +105,6 @@ export class GameManager {
         if (!GameManager.gameEnded) {
             const p5 = GameManager.p5;
             const player = PlayerManager.player;
-            // player.takeDamage(20);
             GameManager.mouseClicked =
                 !GameManager.mouseWasPressed && GameManager.mousePressed;
             if (GameManager.updateMousePos) {

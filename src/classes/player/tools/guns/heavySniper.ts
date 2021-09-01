@@ -13,7 +13,7 @@ export class heavySniper extends Gun {
             1500,
             EBullet.HEAVY_SNIPER_BULLET,
             15,
-            "Heavey Sniper",
+            "Heavy Sniper",
             ETool.HEAVY_SNIPER,
             {
                 wood: 250,

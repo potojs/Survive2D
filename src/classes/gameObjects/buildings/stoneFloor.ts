@@ -1,5 +1,5 @@
 import P5 from "p5";
-import { EGameObject } from "../../game/mapManager";
+import { EGameObject, IGameObject } from "../../game/mapManager";
 import { Building } from "./building";
 import { BuildingManager } from "./buildingManager";
 
@@ -15,6 +15,11 @@ export class StoneFloor extends Building {
             stone: 1,
             wood: 0, iron: 0
         }, false, "Stone Floor", EGameObject.STONE_FLOOR, p5);
+    }
+    getData(): IGameObject {
+        return {
+            ...super.getData(),
+        }
     }
     show() {
         const p5 = this.p5;
