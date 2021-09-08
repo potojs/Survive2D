@@ -1,0 +1,414 @@
+:root {
+    --wood-clr: rgb(122, 87, 71);
+    --stone-clr: rgb(100, 100, 100);
+    --iron-clr: rgb(224, 224, 224);
+    --size: 40px;
+}
+
+body,
+html {
+    overflow-y: hidden;
+    padding: 0;
+    margin: 0;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+
+.game-title {
+    margin-bottom: 20px;
+    font-size: 3rem;
+}
+.flex-container {
+    display: flex;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+.start-menu {
+    margin: auto;
+    text-align: center;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+.menu-btns {
+    display: flex;
+    flex-direction: column;
+}
+.menu-btns button {
+    width: clamp(100px, 40%, 250px);
+    margin: 8px auto;
+    padding: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+canvas {
+    display: block;
+}
+.material-counter {
+    position: absolute;
+    right: 20px;
+    bottom: 100px;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    font-size: 1.2rem;
+}
+.material-counter p {
+    margin: 5px;
+    text-shadow: 0 1px 3px black;
+}
+.building-menu {
+    display: flex;
+    flex-direction: column-reverse;
+    position: absolute;
+    left: 20px;
+    bottom: 50px;
+    border: solid 2px white;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.233);
+}
+
+.building-option {
+    width: var(--size);
+    height: var(--size);
+    margin: 5px;
+    transition: transform 100ms;
+    cursor: pointer;
+}
+.building-option:hover {
+    transform: scale(1.1);
+}
+.building-menu:not(.closed) .building-option.selected {
+    outline: solid 3px rgb(255, 208, 0);
+    outline-offset: 1px;
+}
+.wall {
+    border: solid 2px black;
+    border-radius: 2px;
+    --size: 36px;
+}
+.wood-floor {
+    background-color: var(--wood-clr);
+}
+.stone-floor {
+    background-color: var(--stone-clr);
+}
+.wood-wall {
+    background-color: var(--wood-clr);
+}
+.stone-wall {
+    background-color: var(--stone-clr);
+}
+.iron-wall {
+    background-color: var(--iron-clr);
+}
+.building-menu.closed .building-option:not(.selected) {
+    display: none;
+}
+.description {
+    background-color: rgba(0, 0, 0, 0.822);
+    color: white;
+    padding: 6px;
+    border: white 1px solid;
+    border-radius: 5px;
+    position: absolute;
+    transform: translate(0, -25%);
+    left: 80px;
+    width: 140px;
+}
+.not-visible {
+    display: none;
+}
+.inline-container {
+    display: flex;
+    position: relative;
+}
+.tool-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    padding: 5px;
+    border: solid 1px rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.555);
+}
+.tool {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.137);
+    background-size: 100%;
+    margin: 5px;
+    transition: transform 100ms;
+    cursor: pointer;
+}
+.tool.selected {
+    outline: solid 3px rgb(255, 208, 0);
+    outline-offset: 1px;
+}
+.tool:hover {
+    transform: scale(1.15);
+}
+.tool:not(.unlocked) {
+    filter: brightness(0);
+}
+.player-hand-tool {
+    background-image: url(../sprites/UI/toolbar/hand.png);
+}
+
+.wood-axe-tool {
+    background-image: url(../sprites/UI/toolbar/woodAxe.png);
+}
+.stone-axe-tool {
+    background-image: url(../sprites/UI/toolbar/stoneAxe.png);
+}
+.iron-axe-tool {
+    background-image: url(../sprites/UI/toolbar/ironAxe.png);
+}
+.wood-pickaxe-tool {
+    background-image: url(../sprites/UI/toolbar/woodPickaxe.png);
+}
+.stone-pickaxe-tool {
+    background-image: url(../sprites/UI/toolbar/stonePickaxe.png);
+}
+.iron-pickaxe-tool {
+    background-image: url(../sprites/UI/toolbar/ironPickaxe.png);
+}
+.wood-sword-tool {
+    background-image: url(../sprites/UI/toolbar/woodSword.png);
+}
+.stone-sword-tool {
+    background-image: url(../sprites/UI/toolbar/stoneSword.png);
+}
+.iron-sword-tool {
+    background-image: url(../sprites/UI/toolbar/ironSword.png);
+}
+.pistol-tool {
+    background-image: url(../sprites/UI/toolbar/pistol.png);
+}
+.pump-shotgun-tool {
+    background-image: url(../sprites/UI/toolbar/pumpShotgun.png);
+}
+.heavy-sniper-tool {
+    background-image: url(../sprites/UI/toolbar/heavySniper.png);
+}
+
+.selling-building-menu {
+    position: absolute;
+    padding: 8px;
+    border: solid 2px white;
+    background-color: rgba(0, 0, 0, 0.733);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    transform: translate(-50%, -100%);
+}
+.selling-building-menu p {
+    margin: 7px 0;
+}
+.selling-building-menu span {
+    font-weight: bold;
+}
+.selling-building-menu button {
+    color: white;
+    border: solid 1px white;
+    background-color: rgb(255, 0, 0);
+    padding: 4px;
+    border-radius: 2px;
+    min-width: 50%;
+    cursor: pointer;
+    transition: background-color 100ms, transform 100ms;
+}
+.selling-building-menu button:hover {
+    background-color: rgb(211, 0, 0);
+    transform: scale(1.15);
+}
+.selling-building-menu-trigger {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+}
+.selling-building-menu.not-visible + .selling-building-menu-trigger {
+    display: none;
+}
+
+
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.87);
+    padding: 20px;
+    border: solid 1px white;
+    border-radius: 5px;
+    width: clamp(200px, 25%, 300px);
+}
+.tool-name {
+    font-size: 2rem;
+    margin-top: 0;
+}
+.tool-stats {
+    text-align: left;
+}
+.tool-price p {
+    text-align: left;
+}
+.tool-buying-menu {
+    text-align: center;
+}
+.tool-buying-menu .tool-name {
+    text-align: center;
+}
+.tool-buying-menu .tool-buy-btn {
+    text-align: center;
+    color: white;
+    background-color: rgb(0, 48, 138);
+    border: solid 1px white;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 100ms;
+}
+.close-tool-buying-menu,
+.close-tool-upgrade-menu {
+    position: absolute;
+    border: none;
+    color: white;
+    background-color: transparent;
+    font-size: 2rem;
+    right: 0;
+    top: 5px;
+    cursor: pointer;
+    transition: 100ms;
+}
+.tool-buying-menu .tool-buy-btn:hover,
+.close-tool-buying-menu:hover,
+.close-tool-upgrade-menu:hover {
+    transform: scale(1.15);
+}
+
+.alert-popup-msg {
+    text-align: center;
+}
+.alert-popup-msg button {
+    color: white;
+    background-color: rgb(0, 139, 30);
+    border: solid 1px white;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 100ms;
+}
+.alert-popup-msg button:hover {
+    transform: scale(1.15);
+}
+.alert-popup-msg.error-msg button {
+    background-color: red;
+}
+.alert-popup-msg.error-msg p {
+    color: red;
+}
+.new-day-effect {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transition: 300ms ease-out;
+    transform: translateX(-50%) scale(2);
+    opacity: 0;
+    color: white;
+    font-size: 2rem;
+}
+.new-day-effect.visible {
+    transform: translateX(-50%);
+    opacity: 1;
+}
+.columns {
+    display: flex;
+}
+.column {
+    margin: 10px auto;
+}
+.column.arrow {
+    margin: auto;
+    font-size: 2rem;
+}
+.tool-upgrade-menu {
+    text-align: center;
+    width: auto;
+}
+.tool-upgrade-menu p {
+    margin: 5px;
+}
+.tool-upgrade-btn {
+    color: white;
+    border: solid 1px white;
+    border-radius: 3px;
+    background-color: rgb(255, 115, 0);
+    font-size: 1.2rem;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    transition: 100ms;
+}
+.tool-upgrade-btn:hover {
+    transform: scale(1.15);
+}
+
+
+.game-ended-red-filter {
+    background-color: rgba(255, 0, 0, 0.452);
+    inset: 0;
+    position: absolute;
+    z-index: 998;
+}
+
+.game-ended-screen {
+    position: absolute;
+    color: white;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    text-align: center;
+}
+
+.game-over-title {
+    font-size: 4rem;
+    margin-bottom: 3rem;
+}
+
+.game-stats {
+    text-align: left;
+    list-style-type: none;
+    font-size: 1.2rem;
+}
+.game-stats li {
+    padding: 0.4em;
+}
+
+.restart-btn {
+    color: white;
+    background-color: transparent;
+    border: solid 1px white;
+    padding: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.leaderboard-btn a {
+    color: black;
+    text-decoration: none;
+}
