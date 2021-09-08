@@ -48,8 +48,8 @@ export class PlayerManager {
             p5
         ));
     }
-    static update() {
+    static update(dt: number) {
         PlayerManager.player.userInput();
-        PlayerManager.player.update();
+        PlayerManager.player.update(dt);
     }
 }

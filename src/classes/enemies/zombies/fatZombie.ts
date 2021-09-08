@@ -21,6 +21,7 @@ export class FatZombie extends Enemie {
             FatZombie.size,
             FatZombie.speed,
             ETool.BIG_ZOMBIE_HAND,
+            6,
             p5,
             FatZombie.distToPlayer,
         );

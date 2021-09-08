@@ -21,6 +21,7 @@ export class Demon extends Enemie {
             Demon.size,
             Demon.speed,
             ETool.BLOOD_AXE,
+            8,
             p5,
             Demon.distToPlayer,
         );

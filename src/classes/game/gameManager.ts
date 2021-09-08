@@ -10,11 +10,12 @@ import { ETool, ToolManager } from "../player/tools/toolManager";
 import { MapManager } from "./mapManager";
 import { Renderer } from "./renderer";
 import { UIManager } from "./uiManager";
+import { fps } from "../../main";
 
 export class GameManager {
     static time = 0;
     static day = 0;
-    static gameStart = 0;
+    static timeSinceGameStart = 0;
     static dayLength = 1000 * 60 * 2;
     static isNight = false;
     static nightTimePassed = 0;
@@ -30,10 +31,14 @@ export class GameManager {
         PlayerManager.createPlayer(p5);
         if (localStorage.length > 0) {
             const timeData = JSON.parse(localStorage.getItem("time") as string);
-            GameManager.gameStart =
-                new Date().getTime() - (timeData.finish - timeData.start);
-        } else {
-            GameManager.gameStart = new Date().getTime();
+            if(timeData.finish) {
+                GameManager.timeSinceGameStart = 
+                    timeData.finish - timeData.start;
+            }else{
+                GameManager.timeSinceGameStart = +timeData.timeSinceStart;
+            }
+            // GameManager.gameStart =
+            //     new Date().getTime() - (timeData.finish - timeData.start);
         }
         GameManager.p5 = p5;
         GameManager.time = 0;
@@ -81,8 +86,7 @@ export class GameManager {
         localStorage.setItem(
             "time",
             JSON.stringify({
-                start: GameManager.gameStart.toString(),
-                finish: new Date().getTime(),
+                timeSinceStart: GameManager.timeSinceGameStart.toString(),
             })
         );
         localStorage.setItem(
@@ -101,7 +105,7 @@ export class GameManager {
             document.querySelector(".number-enemies-killed") as HTMLSpanElement
         ).innerText = EnemieManager.numberEnemiesKilled.toString();
     }
-    static update() {
+    static update(dt: number) {
         if (!GameManager.gameEnded) {
             const p5 = GameManager.p5;
             const player = PlayerManager.player;
@@ -111,26 +115,26 @@ export class GameManager {
                 GameManager.mouseX = p5.mouseX;
                 GameManager.mouseY = p5.mouseY;
             }
+            GameManager.timeSinceGameStart += dt * 1000 / fps;
             GameManager.time = p5.map(
-                (new Date().getTime() - GameManager.gameStart) %
-                    GameManager.dayLength,
+                GameManager.timeSinceGameStart % GameManager.dayLength,
                 0,
                 GameManager.dayLength,
                 0,
                 100
             );
             const newDayVal = p5.ceil(
-                (new Date().getTime() - GameManager.gameStart) /
+                GameManager.timeSinceGameStart /
                     GameManager.dayLength
             );
             if (GameManager.day !== newDayVal) {
                 GameManager.day = newDayVal;
                 UIManager.showNewDayEffect(GameManager.day);
             }
-            BulletManager.update();
-            PlayerManager.update();
+            BulletManager.update(dt);
+            PlayerManager.update(dt);
+            EnemieManager.update(player, dt);
 
-            EnemieManager.update(player);
             GameManager.mouseWasPressed = GameManager.mousePressed;
             if (!GameManager.gameEnded) {
                 GameManager.saveGameData();
@@ -138,7 +142,7 @@ export class GameManager {
         }
         ParticuleManager.update();
     }
-    static show() {
+    static show(dt: number) {
         const p5 = GameManager.p5;
         const player = PlayerManager.player;
         p5.background(10);
@@ -150,10 +154,10 @@ export class GameManager {
         Renderer.showGameObjects();
         Renderer.showBullets();
         // enemie layer
-        Renderer.showEnemiesTool();
+        Renderer.showEnemiesTool(dt);
         Renderer.showEnemies();
         // player layer
-        Renderer.showTool();
+        Renderer.showTool(dt);
         Renderer.showPlayer();
 
         Renderer.showParticules();

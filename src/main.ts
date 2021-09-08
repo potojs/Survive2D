@@ -1,4 +1,3 @@
-import "./style.css";
 import P5 from "p5";
 import { PlayerManager } from "./classes/player/playerManager";
 import { SpriteManager } from "./classes/game/spriteManager";
@@ -7,6 +6,8 @@ import Quadtree from "quadtree-lib";
 import { MapManager } from "./classes/game/mapManager";
 import { IQuadtreeItem } from "./classes/quadtreeUser";
 
+export let timeLastFrame = new Date().getTime();
+export const fps = 60;
 export const quadtree = new Quadtree<IQuadtreeItem>({
     width: MapManager.mapDimensions.w,
     height: MapManager.mapDimensions.h,
@@ -37,8 +38,10 @@ const sketch = (p5: P5) => {
         });
     };
     p5.draw = () => {
-        GameManager.update();
-        GameManager.show();
+        const dt = p5.min(p5.deltaTime, 100) / (1000/fps);
+        GameManager.update(dt);
+        GameManager.show(dt);
+        timeLastFrame = new Date().getTime();
     };
     p5.keyPressed = () => {
         if (p5.keyCode === 32) {

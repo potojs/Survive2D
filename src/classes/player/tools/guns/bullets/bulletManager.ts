@@ -42,9 +42,9 @@ export class BulletManager {
             bullet.show();
         }
     }
-    static update() {
+    static update(dt: number) {
         for (let i = 0; i < BulletManager.bullets.length; i++) {
-            BulletManager.bullets[i].update();
+            BulletManager.bullets[i].update(dt);
             if (BulletManager.bullets[i].destroyed) {
                 BulletManager.bullets[i].quadtreeUser.remove();
                 BulletManager.bullets.splice(i, 1);

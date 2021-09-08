@@ -53,30 +53,30 @@ export class Player extends MovingObject {
             GameManager.endGame();
         }
     }
-    update() {
+    update(dt: number) {
         if(!GameManager.isNight && EnemieManager.enemies.length === 0) {
             this.health = Math.min(this.health + 0.5, 100);
         }
-        this.pos.x += this.vel.x;
-        this.quadtreeUser.updateBy(this.vel.x);
+        this.pos.x += this.vel.x * dt;
+        this.quadtreeUser.updateBy(this.vel.x * dt);
         
         const collidingWithX = this.quadtreeUser.getCollision();
         for (let i = 0; i < collidingWithX.length; i++) {
             this.collide(collidingWithX[i], {
                 x: this.p5.abs(this.vel.x) / this.vel.x,
                 y: 0,
-            });
+            }, dt);
         }
         this.quadtreeUser.update(this.pos.x, this.pos.y);
-        this.pos.y += this.vel.y;
-        this.quadtreeUser.updateBy(0, this.vel.y);
+        this.pos.y += this.vel.y * dt;
+        this.quadtreeUser.updateBy(0, this.vel.y * dt);
 
         const collidingWithY = this.quadtreeUser.getCollision();
         for (let i = 0; i < collidingWithY.length; i++) {
             this.collide(collidingWithY[i], {
                 x: 0,
                 y: this.p5.abs(this.vel.y) / this.vel.y,
-            });
+            }, dt);
         }
         this.quadtreeUser.item.y = this.pos.y + MapManager.mapDimensions.h/2;
         this.boundries();

@@ -46,10 +46,10 @@ export class Hand extends MalayTool {
         p5.push();
         p5.translate(
             holder.pos.x +
-                p5.cos(angle+angleOffset) * (holder.size + this.defaultTranslation) +
+                p5.cos(angle + angleOffset) * (holder.size + this.defaultTranslation) +
                 offset.x,
             holder.pos.y +
-                p5.sin(angle+angleOffset) * (holder.size + this.defaultTranslation) +
+                p5.sin(angle + angleOffset) * (holder.size + this.defaultTranslation) +
                 offset.y
         );
         p5.rotate(holder.angle + angleOffset);
@@ -62,13 +62,13 @@ export class Hand extends MalayTool {
         );
         p5.pop();
     }
-    show() {
+    show(dt: number) {
         const p5 = this.p5 as P5;
         const holder = this.holder as MovingObject;
 
         this.animationState.translation = p5.max(
             0,
-            this.animationState.translation - 1
+            this.animationState.translation - 1*dt
         );
         const rightHandOffset = P5.Vector.fromAngle(
             holder.angle,

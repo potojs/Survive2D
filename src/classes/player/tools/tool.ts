@@ -45,7 +45,7 @@ export class Tool {
             }, this.reload);
         };
     }
-    show() {}
+    show(dt?: number) {}
     shouldRotate(pos: P5.Vector): boolean {
         // if you don't know what the dot product is...
         // idk go study some linear algebra or something it's not my problem

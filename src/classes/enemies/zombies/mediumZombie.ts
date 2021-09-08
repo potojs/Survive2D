@@ -21,6 +21,7 @@ export class MediumZombie extends Enemie {
             MediumZombie.size,
             MediumZombie.speed,
             ETool.ZOMBIE_HAND,
+            4,
             p5,
             MediumZombie.distToPlayer
         );

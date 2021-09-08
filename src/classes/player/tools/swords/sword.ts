@@ -62,9 +62,9 @@ export class Sword extends MalayTool {
     animateHit() {
         this.animationState.angularSpeed = -Math.PI/25;
     }
-    animate() {
-        this.animationState.angularSpeed += this.animationState.angularAcc;
-        this.animationState.angle += this.animationState.angularSpeed;
+    animate(dt: number) {
+        this.animationState.angularSpeed += this.animationState.angularAcc * dt;
+        this.animationState.angle += this.animationState.angularSpeed * dt;
         if(this.animationState.angle <= -Math.PI/3) {
             this.animationState.angularSpeed = 0;
             this.animationState.angularAcc = Math.PI/40
@@ -78,8 +78,8 @@ export class Sword extends MalayTool {
             Math.min(this.animationState.angularSpeed, this.animationState.angularSpeedLimit);
         
     }
-    show() {
-        this.animate();
+    show(dt: number) {
+        this.animate(dt);
         const holder = this.holder as MovingObject;
         const p5 = this.p5 as P5;
         const isPlayer = holder === PlayerManager.player;

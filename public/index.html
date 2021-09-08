@@ -1,161 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <script src="https://kit.fontawesome.com/a0dcbd7f59.js" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="icon.png" type="image/png">
-    <title>Survive2D</title>
-</head>
-<body>
-    <div class="flex-container start-menu-cont">
-        <div class="start-menu">
-            <div class="game-title">
-                Survive2D
-            </div>
-            <div class="menu-btns">
-                <button class="start-new-game-btn">new game</button>
-                <button class="continue-btn">continue</button>
-            </div>
-        </div>
-    </div>
-    <div class="game not-visible">
-        <div class="new-day-effect"></div>
-        <div class="game-ended-red-filter not-visible"></div>
-        <div class="game-ended-screen not-visible">
-            <div class="game-over-title">Game Over :(</div>
-            <ul class="game-stats">
-                <li>you survived for <span class="number-days-survived"></span> days</li>
-                <li>you killed <span class="number-enemies-killed"></span> enemies</li>
-                <li>you collected 
-                    <span class="wood-collected"></span> wood + 
-                    <span class="stone-collected"></span> stone + 
-                    <span class="iron-collected"></span> iron
-                </li>
-            </ul>
-            <button class="restart-btn" onclick="location.reload()">restart</button>
-        </div>
-
-        <div class="material-counter">
-            <p class="wood-counter"></p>
-            <p class="stone-counter"></p>
-            <p class="iron-counter"></p>
-        </div>
-        <div class="popup alert-popup-msg not-visible">
-            <p class="alert-msg"></p>
-            <button>cool</button>
-        </div>
-        <div class="building-menu openned closed">
-            <div class="inline-container">
-                <div desc="wood-wall-desc" class="building-option wood-wall wall"></div>
-                <div class="description wood-wall-desc not-visible">
-                    <div class="building-name">Wooden Wall</div>
-                    <div class="required-material">requires: 3 wood</div>
-                    <div class="strength">strength: 20</div>
-                    <div class="type">type: wall</div>
-                </div>
-            </div>
-            <div class="inline-container">
-                <div desc="wood-floor-desc" class="building-option wood-floor"></div>
-                <div class="description wood-floor-desc not-visible">
-                    <div class="building-name">Wooden Floor</div>
-                    <div class="required-material">requires: 2 wood</div>
-                    <div class="type">type: floor</div>
-                </div>
-            </div>
-            <div class="inline-container">
-                <div desc="stone-wall-desc" class="building-option stone-wall wall"></div>
-                <div class="description stone-wall-desc not-visible">
-                    <div class="building-name">Stone Wall</div>
-                    <div class="required-material">requires: 3 stone</div>
-                    <div class="strength">strength: 50</div>
-                    <div class="type">type: wall</div>
-                </div>
-            </div>
-            <div class="inline-container">
-                <div desc="stone-floor-desc" class="building-option stone-floor"></div>
-                <div class="description stone-floor-desc not-visible">
-                    <div class="building-name">Stone Floor</div>
-                    <div class="required-material">requires: 2 stone</div>
-                    <div class="type">type: floor</div>
-                </div>
-            </div>
-            <div class="inline-container">
-                <div desc="iron-wall-desc" class="building-option iron-wall wall"></div>
-                <div class="description iron-wall-desc not-visible">
-                    <div class="building-name">Iron Wall</div>
-                    <div class="required-material">requires: 3 iron</div>
-                    <div class="strength">strength: 80</div>
-                    <div class="type">type: wall</div>
+    <head>
+        <script
+            src="https://kit.fontawesome.com/a0dcbd7f59.js"
+            crossorigin="anonymous"
+        ></script>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="icon.png" type="image/png" />
+        <title>Survive2D</title>
+        <link rel="stylesheet" href="styles/style.css">
+    </head>
+    <body>
+        <div class="flex-container start-menu-cont">
+            <div class="start-menu">
+                <div class="game-title">Survive2D</div>
+                <div class="menu-btns">
+                    <button class="start-new-game-btn">new game</button>
+                    <button class="continue-btn">continue</button>
+                    <button class="leaderboard-btn">
+                        <a href="./leaderboard.html">leaderboard</a>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="tool-upgrade-menu popup not-visible">
-            <button class="close-tool-upgrade-menu"><i class="fas fa-times"></i></button>
-            <div class="columns">
-                <div class="column old-tool">
-                    <p class="tool-name"></p>
-                    <div class="tool-stats">
-                        <p>stats:</p>
-                        <ul></ul>
-                    </div>
-                </div>
-                <div class="column arrow">
-                    <i class="fas fa-long-arrow-alt-right"></i>
-                </div>
-                <div class="column new-tool">
-                    <p class="tool-name"></p>
-                    <div class="tool-stats">
-                        <p>stats:</p>
-                        <ul></ul>
-                    </div>
-                </div>
-            </div>
-            <div class="upgrade-price">
-                <p></p>
-            </div>
-            <button class="tool-upgrade-btn">upgrade</button>
-        </div>
-        <div class="tool-buying-menu popup not-visible">
-            <button class="close-tool-buying-menu"><i class="fas fa-times"></i></button>
-            <p class="tool-name"></p>
-            <div class="tool-stats">
-                <p>tool's stats:</p>
-                <ul>
-                    
+        <div class="game not-visible">
+            <div class="new-day-effect"></div>
+            <div class="game-ended-red-filter not-visible"></div>
+            <div class="game-ended-screen not-visible">
+                <div class="game-over-title">Game Over :(</div>
+                <ul class="game-stats">
+                    <li>
+                        you survived for
+                        <span class="number-days-survived"></span> days
+                    </li>
+                    <li>
+                        you killed
+                        <span class="number-enemies-killed"></span> enemies
+                    </li>
+                    <li>
+                        you collected <span class="wood-collected"></span> wood
+                        + <span class="stone-collected"></span> stone +
+                        <span class="iron-collected"></span> iron
+                    </li>
                 </ul>
+                <button class="restart-btn" onclick="location.reload()">
+                    restart
+                </button>
             </div>
-            <div class="tool-price">
-                <p></p>
+
+            <div class="material-counter">
+                <p class="wood-counter"></p>
+                <p class="stone-counter"></p>
+                <p class="iron-counter"></p>
             </div>
-            <button class="tool-buy-btn">unlock</button>
+            <div class="popup alert-popup-msg not-visible">
+                <p class="alert-msg"></p>
+                <button>cool</button>
+            </div>
+            <div class="building-menu openned closed">
+                <div class="inline-container">
+                    <div
+                        desc="wood-wall-desc"
+                        class="building-option wood-wall wall"
+                    ></div>
+                    <div class="description wood-wall-desc not-visible">
+                        <div class="building-name">Wooden Wall</div>
+                        <div class="required-material">requires: 3 wood</div>
+                        <div class="strength">strength: 20</div>
+                        <div class="type">type: wall</div>
+                    </div>
+                </div>
+                <div class="inline-container">
+                    <div
+                        desc="wood-floor-desc"
+                        class="building-option wood-floor"
+                    ></div>
+                    <div class="description wood-floor-desc not-visible">
+                        <div class="building-name">Wooden Floor</div>
+                        <div class="required-material">requires: 2 wood</div>
+                        <div class="type">type: floor</div>
+                    </div>
+                </div>
+                <div class="inline-container">
+                    <div
+                        desc="stone-wall-desc"
+                        class="building-option stone-wall wall"
+                    ></div>
+                    <div class="description stone-wall-desc not-visible">
+                        <div class="building-name">Stone Wall</div>
+                        <div class="required-material">requires: 3 stone</div>
+                        <div class="strength">strength: 50</div>
+                        <div class="type">type: wall</div>
+                    </div>
+                </div>
+                <div class="inline-container">
+                    <div
+                        desc="stone-floor-desc"
+                        class="building-option stone-floor"
+                    ></div>
+                    <div class="description stone-floor-desc not-visible">
+                        <div class="building-name">Stone Floor</div>
+                        <div class="required-material">requires: 2 stone</div>
+                        <div class="type">type: floor</div>
+                    </div>
+                </div>
+                <div class="inline-container">
+                    <div
+                        desc="iron-wall-desc"
+                        class="building-option iron-wall wall"
+                    ></div>
+                    <div class="description iron-wall-desc not-visible">
+                        <div class="building-name">Iron Wall</div>
+                        <div class="required-material">requires: 3 iron</div>
+                        <div class="strength">strength: 80</div>
+                        <div class="type">type: wall</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tool-upgrade-menu popup not-visible">
+                <button class="close-tool-upgrade-menu">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="columns">
+                    <div class="column old-tool">
+                        <p class="tool-name"></p>
+                        <div class="tool-stats">
+                            <p>stats:</p>
+                            <ul></ul>
+                        </div>
+                    </div>
+                    <div class="column arrow">
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </div>
+                    <div class="column new-tool">
+                        <p class="tool-name"></p>
+                        <div class="tool-stats">
+                            <p>stats:</p>
+                            <ul></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="upgrade-price">
+                    <p></p>
+                </div>
+                <button class="tool-upgrade-btn">upgrade</button>
+            </div>
+            <div class="tool-buying-menu popup not-visible">
+                <button class="close-tool-buying-menu">
+                    <i class="fas fa-times"></i>
+                </button>
+                <p class="tool-name"></p>
+                <div class="tool-stats">
+                    <p>tool's stats:</p>
+                    <ul></ul>
+                </div>
+                <div class="tool-price">
+                    <p></p>
+                </div>
+                <button class="tool-buy-btn">unlock</button>
+            </div>
+            <div class="tool-bar">
+                <div class="tool player-hand-tool unlocked"></div>
+
+                <div class="tool wood-sword-tool"></div>
+                <div class="tool stone-sword-tool not-visible"></div>
+                <div class="tool iron-sword-tool not-visible"></div>
+                <div class="tool wood-axe-tool"></div>
+                <div class="tool stone-axe-tool not-visible"></div>
+                <div class="tool iron-axe-tool not-visible"></div>
+                <div class="tool wood-pickaxe-tool"></div>
+                <div class="tool stone-pickaxe-tool not-visible"></div>
+                <div class="tool iron-pickaxe-tool not-visible"></div>
+                <div class="tool pistol-tool"></div>
+                <div class="tool pump-shotgun-tool"></div>
+                <div class="tool heavy-sniper-tool"></div>
+            </div>
+            <div class="selling-building-menu not-visible">
+                <p class="selling-building-name"></p>
+                <p class="building-price">
+                    sell for: <span class="building-price-span"></span>
+                </p>
+                <button class="sell-btn">sell</button>
+            </div>
+            <div class="selling-building-menu-trigger"></div>
         </div>
-        <div class="tool-bar">
-            <div class="tool player-hand-tool unlocked"></div>
-            
-            <div class="tool wood-sword-tool"></div>
-            <div class="tool stone-sword-tool not-visible"></div>
-            <div class="tool iron-sword-tool not-visible"></div>
-            <div class="tool wood-axe-tool"></div>
-            <div class="tool stone-axe-tool not-visible"></div>
-            <div class="tool iron-axe-tool not-visible"></div>
-            <div class="tool wood-pickaxe-tool"></div>
-            <div class="tool stone-pickaxe-tool not-visible"></div>
-            <div class="tool iron-pickaxe-tool not-visible"></div>
-            <div class="tool pistol-tool"></div>
-            <div class="tool pump-shotgun-tool"></div>
-            <div class="tool heavy-sniper-tool"></div>
-        </div>
-        <div class="selling-building-menu not-visible">
-            <p class="selling-building-name"></p>
-            <p class="building-price">
-                sell for: <span class="building-price-span"></span>
-            </p>
-            <button class="sell-btn">sell</button>
-        </div>
-        <div class="selling-building-menu-trigger"></div>
-    </div>
-    <script defer src="./main.js"></script>
-</body>
+        <script defer src="./main.js"></script>
+    </body>
 </html>

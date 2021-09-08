@@ -32,7 +32,7 @@ export class Axe extends MalayTool {
             axeRotation: Math.PI / 4,
         };
     }
-    show() {
+    show(dt: number) {
         const p5 = this.p5 as P5;
         const holder = this.holder as MovingObject;
         const isPlayer = holder === PlayerManager.player;
@@ -42,7 +42,7 @@ export class Axe extends MalayTool {
             holder.pos.y + p5.sin(holder.angle + angleOffset) * (holder.size + this.size / 2)
         );
         this.animationState.axeRotation = p5.max(
-            this.animationState.axeRotation - Math.PI / 100,
+            this.animationState.axeRotation - Math.PI * dt / 100,
             0
         );
         const shouldRotate = this.shouldRotate(axePos);

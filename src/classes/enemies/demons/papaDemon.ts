@@ -21,6 +21,7 @@ export class PapaDemon extends Enemie {
             PapaDemon.size,
             PapaDemon.speed,
             ETool.PAPA_DEMON_AXE,
+            15,
             p5,
             PapaDemon.distToPlayer,
         );

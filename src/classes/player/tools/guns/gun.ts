@@ -48,7 +48,6 @@ export class Gun extends Tool {
         const p5 = this.p5 as P5;
         const player = PlayerManager.player;
         const img = this.image;
-        const height = (this.size * img.height) / img.width;
         const dist =
             this.distToPlayer +
             player.size +
@@ -63,12 +62,12 @@ export class Gun extends Tool {
     animateHit() {
         this.distToPlayerOffset = -this.recoil;
     }
-    show() {
+    show(dt: number) {
         const p5 = this.p5 as P5;
         const holder = this.holder as MovingObject; 
         const isPlayer = holder === PlayerManager.player;
         const angleOffset = +(isPlayer && (holder as Player).damageAnimation.angleOffset)
-        this.distToPlayerOffset = p5.min(0, this.distToPlayerOffset + 0.5);
+        this.distToPlayerOffset = p5.min(0, this.distToPlayerOffset + 0.5 * dt);
         const img = this.image;
         const height = (this.size * img.height) / img.width;
         const dist =

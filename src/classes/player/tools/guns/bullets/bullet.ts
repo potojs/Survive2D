@@ -48,8 +48,8 @@ export class Bullet extends MovingObject {
         p5.fill(100);
         p5.ellipse(this.pos.x, this.pos.y, this.size*2);
     }
-    update() {
-        super.update();
+    update(dt: number) {
+        super.update(dt);
         this.quadtreeUser.update(this.pos.x, this.pos.y);
         this.distanceTraveled += this.speed;
         if (this.distanceTraveled >= this.maxRange) {

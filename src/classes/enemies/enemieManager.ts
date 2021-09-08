@@ -1,3 +1,4 @@
+import { timeLastFrame } from "../../main";
 import { GameManager } from "../game/gameManager";
 import { UIManager } from "../game/uiManager";
 import { Player } from "../player/player";
@@ -55,6 +56,7 @@ export class EnemieManager {
     static numberEnemiesKilled = 0;
     static setupMediumZombiesSpawn() {
         if (
+            (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.mediumZombie
         ) {
@@ -80,6 +82,7 @@ export class EnemieManager {
     }
     static setupFatZombiesSpawn() {
         if (
+            (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.fatZombie
         ) {
@@ -102,6 +105,7 @@ export class EnemieManager {
     }
     static setupDemonSpawn() {
         if (
+            (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.demon
         ) {
@@ -124,6 +128,7 @@ export class EnemieManager {
     }
     static setupPapaDemonSpawn() {
         if (
+            (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.papaDemon
         ) {
@@ -166,11 +171,11 @@ export class EnemieManager {
         }
     }
 
-    static update(player: Player) {
+    static update(player: Player, dt: number) {
         const enemies = EnemieManager.enemies;
         for (let i = enemies.length - 1; i >= 0; i--) {
-            enemies[i].follow(player);
-            enemies[i].update();
+            enemies[i].follow(player, dt);
+            enemies[i].update(dt);
             if (enemies[i].destroyed) {
                 ToolManager.enemieWeapons.splice(
                     ToolManager.enemieWeapons.indexOf(

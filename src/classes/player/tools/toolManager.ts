@@ -218,7 +218,7 @@ export class ToolManager {
         weapon.setup(UIManager.p5);
         weapon.attach(enemie);
     }
-    static show() {
+    static show(dt: number) {
         const index = PlayerManager.player.selectedTool;
         switch (PlayerManager.player.selectedTool) {
             case ETool.WOOD_WALL:
@@ -229,11 +229,11 @@ export class ToolManager {
                 BuildingManager.showBuildInfo(index, ToolManager.p5);
                 return;
         }
-        ToolManager.getPlayerTool(index).show();
+        ToolManager.getPlayerTool(index).show(dt);
     }
-    static showEnemieWepaons() {
+    static showEnemieWeapons(dt: number) {
         for (let i = 0; i < ToolManager.enemieWeapons.length; i++) {
-            ToolManager.enemieWeapons[i].show();
+            ToolManager.enemieWeapons[i].show(dt);
         }
     }
     static hit() {

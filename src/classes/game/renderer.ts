@@ -7,6 +7,7 @@ import { GameManager } from "./gameManager";
 import { UIManager } from "./uiManager";
 import { ParticuleManager } from "../particules/particuleManager";
 import { BulletManager } from "../player/tools/guns/bullets/bulletManager";
+import { Utils } from "../utils";
 
 export class Renderer {
     static lightingFilter: P5.Graphics;
@@ -32,8 +33,7 @@ export class Renderer {
         ];
         GameManager.isNight = true;
         GameManager.nightTimePassed =
-            100 - ((100 - time) * 100) /
-            (100 - filterColorPhasesTiming[2]);
+            100 - ((100 - time) * 100) / (100 - filterColorPhasesTiming[2]);
         if (
             time >= filterColorPhasesTiming[0] &&
             time <= filterColorPhasesTiming[1]
@@ -84,17 +84,68 @@ export class Renderer {
     static showParticules() {
         ParticuleManager.show();
     }
-    static showEnemiesTool() {
-        ToolManager.showEnemieWepaons();
+    static showEnemiesTool(dt: number) {
+        ToolManager.showEnemieWeapons(dt);
     }
-    static showTool() {
-        ToolManager.show();
+    static showTool(dt: number) {
+        ToolManager.show(dt);
     }
     static showPlayer() {
         PlayerManager.show();
     }
     static showEnemies() {
         EnemieManager.show();
+        const p5 = UIManager.p5;
+        const arrowPadding = 30;
+        const player = PlayerManager.player;
+        const width = p5.width;
+        const height = p5.height;
+        const x = player.pos.x - width / 2;
+        const y = player.pos.y - height / 2;
+        for (const enemie of EnemieManager.enemies) {
+            if (
+                enemie.pos.x <= x - enemie.size ||
+                enemie.pos.y <= y - enemie.size ||
+                enemie.pos.x >= x + width + enemie.size ||
+                enemie.pos.y >= y + height + enemie.size
+            ) {
+                const arrowPos = p5.createVector(
+                    Utils.clamp(
+                        enemie.pos.x,
+                        x + arrowPadding,
+                        x + width - arrowPadding
+                    ),Utils.clamp(
+                        enemie.pos.y,
+                        y + arrowPadding,
+                        y + height - arrowPadding
+                    )
+                );
+                const arrowAngle = enemie.angle + p5.PI;
+                Renderer.drawArrow(arrowPos, arrowAngle);
+            }
+        }
+    }
+    static drawArrow(pos: P5.Vector, angle: number) {
+        const p5 = UIManager.p5;
+        
+        const arrowHeight = 60;
+        const arrowWidth = 30;
+        const arrowTickness = 16;
+
+        p5.push();
+        p5.translate(pos);
+        p5.rotate(angle);
+        p5.fill(255, 30, 30, 150);
+        p5.noStroke();
+        p5.beginShape();
+
+        p5.vertex(0, 0);
+        p5.vertex(-arrowWidth, -arrowHeight/2);
+        p5.vertex(-arrowTickness, 0);
+        p5.vertex(-arrowWidth, arrowHeight/2);
+
+        p5.endShape();
+        p5.pop();
     }
     static showBullets() {
         BulletManager.show();

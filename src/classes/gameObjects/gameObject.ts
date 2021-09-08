@@ -33,7 +33,7 @@ export class GameObject {
             type: this.type
         }
     }
-    update(){}
+    update(dt?: number){}
     show(){}
     getHitBy(tool: Tool, isPlayer: boolean, materialCollected: { wood: number, stone: number, iron: number }){}
 }

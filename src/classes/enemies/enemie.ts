@@ -24,6 +24,7 @@ export class Enemie extends MovingObject {
         size: number,
         speed: number,
         public weapon: ETool,
+        public healingToPlayer: number,
         p5: P5,
         distToPlayer: number,
         private startHittingDist: number = 5
@@ -61,7 +62,7 @@ export class Enemie extends MovingObject {
 
         p5.pop();
     }
-    update() {
+    update(dt: number) {
         const p5 = this.p5;
         const player = PlayerManager.player;
 
@@ -71,7 +72,7 @@ export class Enemie extends MovingObject {
         );
 
         this.pos.x += this.vel.x;
-        this.quadtreeUser.item.x += this.vel.x;
+        this.quadtreeUser.updateBy(this.vel.x);
 
         const collidingWithX = this.quadtreeUser
             .getCollision()
@@ -80,7 +81,7 @@ export class Enemie extends MovingObject {
             this.collide(collidingWithX[i], {
                 x: this.p5.abs(this.vel.x) / this.vel.x,
                 y: 0,
-            });
+            }, dt);
         }
         this.quadtreeUser.item.x = this.pos.x + MapManager.mapDimensions.w / 2;
         this.pos.y += this.vel.y;
@@ -93,7 +94,7 @@ export class Enemie extends MovingObject {
             this.collide(collidingWithY[i], {
                 x: 0,
                 y: this.p5.abs(this.vel.y) / this.vel.y,
-            });
+            }, dt);
         }
         this.quadtreeUser.item.y = this.pos.y + MapManager.mapDimensions.h / 2;
         this.boundries();
@@ -118,10 +119,21 @@ export class Enemie extends MovingObject {
         this.health -= damage;
         if (this.health <= 0) {
             this.destroyed = true;
+            const player = PlayerManager.player;
+            const amountHealed = Math.min(this.healingToPlayer, 100 - player.health);
+            if(amountHealed > 0) {
+                ParticuleManager.createTextEffect(
+                    `healed ${amountHealed}hp`,
+                    player.pos.x - Math.cos(player.angle) * 60,
+                    player.pos.y - Math.sin(player.angle) * 60 - 20,
+                    this.p5
+                );
+                player.health += amountHealed;
+            }
             this.quadtreeUser.remove();
         }
     }
-    follow(player: Player) {
+    follow(player: Player, dt: number) {
         const p5 = this.p5;
         const dist = P5.Vector.dist(this.pos, player.pos);
         const distToStop = dist - this.distToPlayer;
@@ -129,7 +141,7 @@ export class Enemie extends MovingObject {
             Math.cos(this.angle) * distToStop,
             Math.sin(this.angle) * distToStop
         );
-        this.vel.setMag(p5.min(this.speed, p5.abs(distToStop)));
+        this.vel.setMag(p5.min(this.speed * dt, p5.abs(distToStop)));
         if (dist < this.distToPlayer + this.startHittingDist) {
             const weapon = ToolManager.getWeapon(this) as Tool;
             weapon.hit();
