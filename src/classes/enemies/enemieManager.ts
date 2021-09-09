@@ -48,10 +48,10 @@ export class EnemieManager {
         papaDemon: 100,
     };
     static enemieSpawnIntervalsMin = {
-        mediumZombie: 1000,
-        fatZombie: 1000,
-        demon: 1000,
-        papaDemon: 2000,
+        mediumZombie: 800,
+        fatZombie: 800,
+        demon: 800,
+        papaDemon: 1000,
     };
     static numberEnemiesKilled = 0;
     static setupMediumZombiesSpawn() {
