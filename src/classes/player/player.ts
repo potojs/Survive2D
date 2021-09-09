@@ -108,7 +108,7 @@ export class Player extends MovingObject {
         }
     }
     hit() {
-        if(!GameManager.gameEnded) {
+        if(!GameManager.gamePaused) {
             ToolManager.hit();
         }
     }
@@ -144,7 +144,7 @@ export class Player extends MovingObject {
         const p5 = this.p5;
         const img = SpriteManager.sprites.player.player as P5.Image;
         p5.push();
-        if(!GameManager.gameEnded){
+        if(!GameManager.gamePaused){
             this.angle += this.damageAnimation.angleOffset;
         }
         p5.translate(this.pos.x, this.pos.y);

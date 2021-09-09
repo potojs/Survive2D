@@ -26,7 +26,7 @@ export class GameManager {
     static updateMousePos = true;
     static mouseClicked = false;
     static mouseWasPressed = false;
-    static gameEnded = false;
+    static gamePaused = false;
     static setup(p5: P5) {
         PlayerManager.createPlayer(p5);
         if (localStorage.length > 0) {
@@ -97,7 +97,7 @@ export class GameManager {
     static endGame() {
         localStorage.clear();
         UIManager.showEndScreen();
-        GameManager.gameEnded = true;
+        GameManager.gamePaused = true;
         (
             document.querySelector(".number-days-survived") as HTMLSpanElement
         ).innerText = GameManager.day.toString();
@@ -106,7 +106,7 @@ export class GameManager {
         ).innerText = EnemieManager.numberEnemiesKilled.toString();
     }
     static update(dt: number) {
-        if (!GameManager.gameEnded) {
+        if (!GameManager.gamePaused) {
             const p5 = GameManager.p5;
             const player = PlayerManager.player;
             GameManager.mouseClicked =
@@ -136,7 +136,7 @@ export class GameManager {
             EnemieManager.update(player, dt);
 
             GameManager.mouseWasPressed = GameManager.mousePressed;
-            if (!GameManager.gameEnded) {
+            if (!GameManager.gamePaused) {
                 GameManager.saveGameData();
             }
         }

@@ -56,6 +56,7 @@ export class EnemieManager {
     static numberEnemiesKilled = 0;
     static setupMediumZombiesSpawn() {
         if (
+            !GameManager.gamePaused && 
             (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.mediumZombie
@@ -82,6 +83,7 @@ export class EnemieManager {
     }
     static setupFatZombiesSpawn() {
         if (
+            !GameManager.gamePaused && 
             (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.fatZombie
@@ -105,6 +107,7 @@ export class EnemieManager {
     }
     static setupDemonSpawn() {
         if (
+            !GameManager.gamePaused && 
             (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.demon
@@ -128,6 +131,7 @@ export class EnemieManager {
     }
     static setupPapaDemonSpawn() {
         if (
+            !GameManager.gamePaused && 
             (new Date().getTime() - timeLastFrame) < 100 &&
             GameManager.isNight &&
             GameManager.day >= EnemieManager.enemieSpawnDayStart.papaDemon

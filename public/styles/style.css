@@ -3,6 +3,8 @@
     --stone-clr: rgb(100, 100, 100);
     --iron-clr: rgb(224, 224, 224);
     --size: 40px;
+    --font-clr: rgb(231, 231, 231);
+    --popup-bg-clr: rgba(0, 0, 0, 0.87);
 }
 
 body,
@@ -14,6 +16,66 @@ html {
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
+.popup-blur {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.534);
+    z-index: 999;
+}
+
+/* pause menu */
+
+.pause-menu {
+    text-align: center;
+    z-index: 1000;
+}
+
+.pause-menu .options {
+    display: flex;
+    flex-direction: column;
+}
+
+.pause-menu .options button {
+    --trans-time: 100ms;
+    border: solid 2px var(--font-clr);
+    background-color: transparent;
+    color: var(--font-clr);
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 4px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 
+        transform var(--trans-time), 
+        background-color var(--trans-time),
+        color var(--trans-time);
+}
+.pause-menu .options button:hover {
+    transform: scale(1.15);
+    background-color: var(--font-clr);
+    color: var(--popup-bg-clr);
+}
+.pause-menu .title {
+    font-size: 2.2rem;
+}
+
+.pause-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2rem;
+    color: var(--font-clr);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform 100ms;
+}
+.pause-btn:hover {
+    transform: scale(1.2);
+}
+
+/*  */
 
 .game-title {
     margin-bottom: 20px;
@@ -240,14 +302,13 @@ canvas {
     display: none;
 }
 
-
 .popup {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    background-color: rgba(0, 0, 0, 0.87);
+    background-color: var(--popup-bg-clr);
     padding: 20px;
     border: solid 1px white;
     border-radius: 5px;
@@ -281,7 +342,8 @@ canvas {
     transition: 100ms;
 }
 .close-tool-buying-menu,
-.close-tool-upgrade-menu {
+.close-tool-upgrade-menu,
+.close-pause-menu {
     position: absolute;
     border: none;
     color: white;
@@ -294,7 +356,8 @@ canvas {
 }
 .tool-buying-menu .tool-buy-btn:hover,
 .close-tool-buying-menu:hover,
-.close-tool-upgrade-menu:hover {
+.close-tool-upgrade-menu:hover,
+.close-pause-menu:hover {
     transform: scale(1.15);
 }
 
@@ -365,7 +428,6 @@ canvas {
 .tool-upgrade-btn:hover {
     transform: scale(1.15);
 }
-
 
 .game-ended-red-filter {
     background-color: rgba(255, 0, 0, 0.452);

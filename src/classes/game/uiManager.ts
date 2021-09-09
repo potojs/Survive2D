@@ -27,11 +27,43 @@ export class UIManager {
         size: 120,
         handHeight: 50,
     };
+    static setupPauseMenu() {
+        const pauseBtn = document.querySelector(".pause-btn") as HTMLButtonElement;
+        const pauseMenu = document.querySelector(".pause-menu") as HTMLDivElement;
+        const blackBlur = document.querySelector(".popup-blur") as HTMLDivElement;
+        const closePauseMenuBtn = document.querySelector(".close-pause-menu") as HTMLButtonElement;
+        const menuBtnContinue = document.querySelector(".menu-btn-continue") as HTMLButtonElement;
+        const menuBtnGoHome = document.querySelector(".menu-btn-go-home") as HTMLButtonElement;
+        const menuBtnDeleteSave = document.querySelector(".menu-btn-delete-save") as HTMLButtonElement;
+        const closePauseMenu = ()=>{
+            pauseMenu.classList.add("not-visible");
+            blackBlur.classList.add("not-visible");
+            GameManager.gamePaused = false;
+        }
+        menuBtnContinue.addEventListener("click", closePauseMenu);
+        closePauseMenuBtn.addEventListener("click", closePauseMenu);
+        menuBtnGoHome.addEventListener("click", ()=>location.reload());
+        menuBtnDeleteSave.addEventListener("click", ()=>{
+            if(confirm("r u sure about that?")) {
+                localStorage.clear();
+                location.reload();
+            }
+        });
+        pauseBtn.addEventListener("click", ()=>{
+            pauseMenu.classList.remove("not-visible");
+            blackBlur.classList.remove("not-visible");
+            GameManager.gamePaused = true;
+        })
+
+
+
+    }
     static setup(p5: P5) {
         UIManager.p5 = p5;
         UIManager.setupToolBar();
         UIManager.setupBuildingMenu();
         UIManager.setupSellingMenu();
+        UIManager.setupPauseMenu();
         const player = PlayerManager.player;
         document
             .querySelector(".building-menu")!

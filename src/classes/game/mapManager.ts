@@ -160,7 +160,7 @@ export class MapManager {
         const mapHeight = MapManager.mapDimensions.h;
         setInterval(() => {
             if (
-                !GameManager.gameEnded &&
+                !GameManager.gamePaused &&
                 MapManager.objectDensity.tree.count <
                     MapManager.objectDensity.tree.max
             ) {
@@ -172,7 +172,7 @@ export class MapManager {
         }, 1000);
         setInterval(() => {
             if (
-                !GameManager.gameEnded &&
+                !GameManager.gamePaused &&
                 MapManager.objectDensity.rock.count <
                     MapManager.objectDensity.rock.max
             ) {
@@ -184,7 +184,7 @@ export class MapManager {
         }, 1500);
         setInterval(() => {
             if (
-                !GameManager.gameEnded &&
+                !GameManager.gamePaused &&
                 MapManager.objectDensity.iron.count <
                     MapManager.objectDensity.iron.max
             ) {
