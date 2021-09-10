@@ -392,6 +392,7 @@ canvas {
     opacity: 0;
     color: white;
     font-size: 2rem;
+    pointer-events: none;
 }
 .new-day-effect.visible {
     transform: translateX(-50%);
