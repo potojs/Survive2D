@@ -5,6 +5,7 @@ import { GameManager } from "./classes/game/gameManager";
 import Quadtree from "quadtree-lib";
 import { MapManager } from "./classes/game/mapManager";
 import { IQuadtreeItem } from "./classes/quadtreeUser";
+import { UIManager } from "./classes/game/uiManager";
 
 export let timeLastFrame = new Date().getTime();
 export const fps = 60;
@@ -46,6 +47,9 @@ const sketch = (p5: P5) => {
     p5.keyPressed = () => {
         if (p5.keyCode === 32) {
             PlayerManager.hit();
+        } 
+        if(p5.keyCode <= 55 && p5.keyCode >= 49) {
+            UIManager.selectToolAt(p5.keyCode - 49);
         }
     };
 };

@@ -27,36 +27,55 @@ export class UIManager {
         size: 120,
         handHeight: 50,
     };
+    static selectToolAt(index: number) {
+        const toolsBtns = Array.from<HTMLDivElement>(
+            document.querySelectorAll(".tool")!
+        );
+        toolsBtns.filter(
+            (e: HTMLDivElement) => !e.classList.contains("not-visible")
+        )[index].click();
+    }
     static setupPauseMenu() {
-        const pauseBtn = document.querySelector(".pause-btn") as HTMLButtonElement;
-        const pauseMenu = document.querySelector(".pause-menu") as HTMLDivElement;
-        const blackBlur = document.querySelector(".popup-blur") as HTMLDivElement;
-        const closePauseMenuBtn = document.querySelector(".close-pause-menu") as HTMLButtonElement;
-        const menuBtnContinue = document.querySelector(".menu-btn-continue") as HTMLButtonElement;
-        const menuBtnGoHome = document.querySelector(".menu-btn-go-home") as HTMLButtonElement;
-        const menuBtnDeleteSave = document.querySelector(".menu-btn-delete-save") as HTMLButtonElement;
-        const closePauseMenu = ()=>{
+        const pauseBtn = document.querySelector(
+            ".pause-btn"
+        ) as HTMLButtonElement;
+        const pauseMenu = document.querySelector(
+            ".pause-menu"
+        ) as HTMLDivElement;
+        const blackBlur = document.querySelector(
+            ".popup-blur"
+        ) as HTMLDivElement;
+        const closePauseMenuBtn = document.querySelector(
+            ".close-pause-menu"
+        ) as HTMLButtonElement;
+        const menuBtnContinue = document.querySelector(
+            ".menu-btn-continue"
+        ) as HTMLButtonElement;
+        const menuBtnGoHome = document.querySelector(
+            ".menu-btn-go-home"
+        ) as HTMLButtonElement;
+        const menuBtnDeleteSave = document.querySelector(
+            ".menu-btn-delete-save"
+        ) as HTMLButtonElement;
+        const closePauseMenu = () => {
             pauseMenu.classList.add("not-visible");
             blackBlur.classList.add("not-visible");
             GameManager.gamePaused = false;
-        }
+        };
         menuBtnContinue.addEventListener("click", closePauseMenu);
         closePauseMenuBtn.addEventListener("click", closePauseMenu);
-        menuBtnGoHome.addEventListener("click", ()=>location.reload());
-        menuBtnDeleteSave.addEventListener("click", ()=>{
-            if(confirm("r u sure about that?")) {
+        menuBtnGoHome.addEventListener("click", () => location.reload());
+        menuBtnDeleteSave.addEventListener("click", () => {
+            if (confirm("r u sure about that?")) {
                 localStorage.clear();
                 location.reload();
             }
         });
-        pauseBtn.addEventListener("click", ()=>{
+        pauseBtn.addEventListener("click", () => {
             pauseMenu.classList.remove("not-visible");
             blackBlur.classList.remove("not-visible");
             GameManager.gamePaused = true;
-        })
-
-
-
+        });
     }
     static setup(p5: P5) {
         UIManager.p5 = p5;
@@ -65,36 +84,43 @@ export class UIManager {
         UIManager.setupSellingMenu();
         UIManager.setupPauseMenu();
         const player = PlayerManager.player;
-        document
-            .querySelector(".building-menu")!
-            .classList.remove("closed");
+        document.querySelector(".building-menu")!.classList.remove("closed");
         switch (player.selectedTool) {
             case ETool.WOOD_WALL:
-                (document.querySelector(".wood-wall")!).classList.add("selected");
+                document.querySelector(".wood-wall")!.classList.add("selected");
                 break;
             case ETool.STONE_WALL:
-                (document.querySelector(".stone-wall")!).classList.add("selected");
+                document
+                    .querySelector(".stone-wall")!
+                    .classList.add("selected");
                 break;
             case ETool.IRON_WALL:
-                (document.querySelector(".iron-wall")!).classList.add("selected");
+                document.querySelector(".iron-wall")!.classList.add("selected");
                 break;
             case ETool.WOOD_FLOOR:
-                (document.querySelector(".wood-floor")!).classList.add("selected");
+                document
+                    .querySelector(".wood-floor")!
+                    .classList.add("selected");
                 break;
             case ETool.STONE_FLOOR:
-                (document.querySelector(".stone-floor")!).classList.add("selected");
+                document
+                    .querySelector(".stone-floor")!
+                    .classList.add("selected");
                 break;
-            default: 
-                (document.querySelector(".wood-wall")!).classList.add("selected");
+            default:
+                document.querySelector(".wood-wall")!.classList.add("selected");
                 document
                     .querySelector(".building-menu")!
                     .classList.add("closed");
-                const eltClass = `.${ToolManager.getPlayerTool(player.selectedTool)
+                const eltClass = `.${ToolManager.getPlayerTool(
+                    player.selectedTool
+                )
                     .name.toLowerCase()
                     .replace(" ", "-")}-tool`;
-                (document.querySelector(eltClass) as HTMLDivElement).classList.add("selected");
+                (
+                    document.querySelector(eltClass) as HTMLDivElement
+                ).classList.add("selected");
         }
-
     }
     static showPlayerHealth() {
         const p5 = UIManager.p5;
