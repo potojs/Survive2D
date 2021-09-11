@@ -475,3 +475,12 @@ canvas {
     color: black;
     text-decoration: none;
 }
+
+
+.made-by {
+    position: absolute;
+    bottom: 5px;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
