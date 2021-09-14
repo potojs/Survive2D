@@ -39,9 +39,9 @@ export class PlayerManager {
         return (PlayerManager.player = new Player(
             0,
             0,
-            100000,
-            100000,
-            100000,
+            0,
+            0,
+            0,
             100,
             PlayerManager.playerSize,
             PlayerManager.playerSpeed,
