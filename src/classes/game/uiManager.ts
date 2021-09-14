@@ -21,6 +21,7 @@ export enum ESellingMenu {
 export class UIManager {
     static p5: P5;
     static sellingMenuState = ESellingMenu.HIDDEN;
+    static pauseMenuOpened = false;
     static clock = {
         x: 20,
         y: 20,
@@ -34,6 +35,30 @@ export class UIManager {
         toolsBtns.filter(
             (e: HTMLDivElement) => !e.classList.contains("not-visible")
         )[index].click();
+    }
+    static closePauseMenu() {
+        const pauseMenu = document.querySelector(
+            ".pause-menu"
+        ) as HTMLDivElement;
+        const blackBlur = document.querySelector(
+            ".popup-blur"
+        ) as HTMLDivElement;
+        pauseMenu.classList.add("not-visible");
+        blackBlur.classList.add("not-visible");
+        GameManager.gamePaused = false;
+        UIManager.pauseMenuOpened = false;
+    }
+    static openPauseMenu() {
+        const pauseMenu = document.querySelector(
+            ".pause-menu"
+        ) as HTMLDivElement;
+        const blackBlur = document.querySelector(
+            ".popup-blur"
+        ) as HTMLDivElement;
+        pauseMenu.classList.remove("not-visible");
+        blackBlur.classList.remove("not-visible");
+        GameManager.gamePaused = true;
+        UIManager.pauseMenuOpened = true;
     }
     static setupPauseMenu() {
         const pauseBtn = document.querySelector(
@@ -57,13 +82,8 @@ export class UIManager {
         const menuBtnDeleteSave = document.querySelector(
             ".menu-btn-delete-save"
         ) as HTMLButtonElement;
-        const closePauseMenu = () => {
-            pauseMenu.classList.add("not-visible");
-            blackBlur.classList.add("not-visible");
-            GameManager.gamePaused = false;
-        };
-        menuBtnContinue.addEventListener("click", closePauseMenu);
-        closePauseMenuBtn.addEventListener("click", closePauseMenu);
+        menuBtnContinue.addEventListener("click", UIManager.closePauseMenu);
+        closePauseMenuBtn.addEventListener("click", UIManager.closePauseMenu);
         menuBtnGoHome.addEventListener("click", () => location.reload());
         menuBtnDeleteSave.addEventListener("click", () => {
             if (confirm("r u sure about that?")) {
@@ -71,11 +91,7 @@ export class UIManager {
                 location.reload();
             }
         });
-        pauseBtn.addEventListener("click", () => {
-            pauseMenu.classList.remove("not-visible");
-            blackBlur.classList.remove("not-visible");
-            GameManager.gamePaused = true;
-        });
+        pauseBtn.addEventListener("click", UIManager.openPauseMenu);
     }
     static setup(p5: P5) {
         UIManager.p5 = p5;
@@ -497,6 +513,11 @@ export class UIManager {
             .querySelector(".heavy-sniper-tool")!
             .addEventListener("click", (e: Event) => {
                 UIManager.toolClicked(ETool.HEAVY_SNIPER, e);
+            });
+        document
+            .querySelector(".grenade-launcher-tool")!
+            .addEventListener("click", (e: Event) => {
+                UIManager.toolClicked(ETool.GRENADE_LAUNCHER, e);
             });
 
         const tools = document.querySelectorAll(".tool");

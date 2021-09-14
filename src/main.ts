@@ -21,6 +21,7 @@ const sketch = (p5: P5) => {
     };
     p5.setup = () => {
         GameManager.setup(p5);
+        p5.frameRate(60);
         canvas = p5.createCanvas(window.innerWidth, window.innerHeight);
         canvas.mouseOver(() => {
             GameManager.updateMousePos = true;
@@ -48,8 +49,15 @@ const sketch = (p5: P5) => {
         if (p5.keyCode === 32) {
             PlayerManager.hit();
         } 
-        if(p5.keyCode <= 55 && p5.keyCode >= 49) {
+        if(p5.keyCode <= 56 && p5.keyCode >= 49) { // numbers from 1 to 8
             UIManager.selectToolAt(p5.keyCode - 49);
+        }
+        if(p5.keyCode === 80) { // keyCode 80 is the letter "p"
+            if(UIManager.pauseMenuOpened) {
+                UIManager.closePauseMenu();
+            }else{
+                UIManager.openPauseMenu();
+            }
         }
     };
 };

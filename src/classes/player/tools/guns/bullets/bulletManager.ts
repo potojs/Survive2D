@@ -1,5 +1,6 @@
 import P5 from "p5";
 import { Bullet } from "./bullet";
+import { Grenade } from "./grenade";
 import { heavySniperBullet } from "./heavySniperBullet";
 import { PistolBullet } from "./pistolBullet";
 import { PumpShotgunBullet } from "./pumpShotgunBullet";
@@ -8,6 +9,7 @@ export enum EBullet {
     PISTOL_BULLET,
     PUMP_SHOTGUN_BULLET,
     HEAVY_SNIPER_BULLET,
+    GRENADE,
 }
 
 export class BulletManager {
@@ -25,6 +27,8 @@ export class BulletManager {
                 return new PumpShotgunBullet(pos.x, pos.y, angle, p5);
             case EBullet.HEAVY_SNIPER_BULLET:
                 return new heavySniperBullet(pos.x, pos.y, angle, p5);
+            case EBullet.GRENADE:
+                return new Grenade(pos.x, pos.y, angle, p5);
         }
     }
     static spawnBullet(

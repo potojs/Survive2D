@@ -1,4 +1,5 @@
 import P5 from "p5";
+import { GameManager } from "../game/gameManager";
 import { MapManager } from "../game/mapManager";
 import { ESellingMenu, UIManager } from "../game/uiManager";
 import { GameObject } from "../gameObjects/gameObject";
@@ -23,6 +24,7 @@ export class Enemie extends MovingObject {
         private enemieType: EEnemie,
         size: number,
         speed: number,
+        public dayTimeSpeed: number,
         public weapon: ETool,
         public healingToPlayer: number,
         p5: P5,
@@ -65,6 +67,7 @@ export class Enemie extends MovingObject {
     update(dt: number) {
         const p5 = this.p5;
         const player = PlayerManager.player;
+        const speed = GameManager.isNight ? this.speed: this.dayTimeSpeed;
 
         this.angle = p5.atan2(
             player.pos.y - this.pos.y,
@@ -81,7 +84,7 @@ export class Enemie extends MovingObject {
             this.collide(collidingWithX[i], {
                 x: this.p5.abs(this.vel.x) / this.vel.x,
                 y: 0,
-            }, dt);
+            }, speed, dt);
         }
         this.quadtreeUser.item.x = this.pos.x + MapManager.mapDimensions.w / 2;
         this.pos.y += this.vel.y;
@@ -94,7 +97,7 @@ export class Enemie extends MovingObject {
             this.collide(collidingWithY[i], {
                 x: 0,
                 y: this.p5.abs(this.vel.y) / this.vel.y,
-            }, dt);
+            }, speed, dt);
         }
         this.quadtreeUser.item.y = this.pos.y + MapManager.mapDimensions.h / 2;
         this.boundries();
@@ -107,13 +110,15 @@ export class Enemie extends MovingObject {
             weapon.hit();
         }
     }
-    takeDamage(attacker: Tool | Bullet) {
+    takeDamage(attacker: Tool | Bullet | number) {
         let damage: number;
         if (attacker instanceof Tool) {
             const toolMalay = attacker as MalayTool;
             damage = toolMalay.damage.damage;
-        } else {
+        } else if(attacker instanceof Bullet) {
             damage = attacker.damage;
+        }else{
+            damage = attacker;
         }
         ParticuleManager.showDamageEffect(this, Math.min(damage, this.health));
         this.health -= damage;
@@ -141,7 +146,8 @@ export class Enemie extends MovingObject {
             Math.cos(this.angle) * distToStop,
             Math.sin(this.angle) * distToStop
         );
-        this.vel.setMag(p5.min(this.speed * dt, p5.abs(distToStop)));
+        const speed = GameManager.isNight ? this.speed: this.dayTimeSpeed;
+        this.vel.setMag(p5.min(speed * dt, p5.abs(distToStop)));
         if (dist < this.distToPlayer + this.startHittingDist) {
             const weapon = ToolManager.getWeapon(this) as Tool;
             weapon.hit();

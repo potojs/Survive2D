@@ -35,7 +35,7 @@ export class QuadtreeUser {
         quadtree.push(this.item, true);
     }
 
-    getCollision(): GameObject[] {
+    getCollision(returnFloors?: boolean): GameObject[] {
         const collision = quadtree.colliding(this.item, Utils.collision);
         return collision.map(elt=>elt.userData);
     }

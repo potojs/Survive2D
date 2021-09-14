@@ -262,6 +262,9 @@ canvas {
 .heavy-sniper-tool {
     background-image: url(../sprites/UI/toolbar/heavySniper.png);
 }
+.grenade-launcher-tool {
+    background-image: url(../sprites/UI/toolbar/grenadeLauncher.png);
+}
 
 .selling-building-menu {
     position: absolute;

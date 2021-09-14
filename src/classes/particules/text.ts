@@ -1,8 +1,6 @@
 import P5 from "p5";
 import { Particule } from "./particule";
 
-
-
 export class TextEffect extends Particule {
     static speed = 1.5;
 
@@ -20,9 +18,13 @@ export class TextEffect extends Particule {
         const p5 = this.p5;
         p5.textAlign(p5.CENTER, p5.CENTER);
         p5.noStroke();
-        p5.fill(255, 255*+!this.isDamageEffect, 255*+!this.isDamageEffect, p5.map(this.lifeTime, 0, 100, 0, 255));
+        p5.fill(
+            255,
+            255 * +!this.isDamageEffect,
+            255 * +!this.isDamageEffect,
+            p5.map(this.lifeTime, 0, 100, 0, 255)
+        );
         p5.textSize(20);
         p5.text(this.text, this.pos.x, this.pos.y);
     }
-
 }

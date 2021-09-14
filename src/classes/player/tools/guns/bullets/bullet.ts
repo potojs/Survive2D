@@ -1,12 +1,6 @@
 import P5 from "p5";
 import { Enemie } from "../../../../enemies/enemie";
-import { EnemieManager } from "../../../../enemies/enemieManager";
-import { MapManager } from "../../../../game/mapManager";
-import { UIManager } from "../../../../game/uiManager";
-import { ECollider } from "../../../../gameObjects/gameObject";
 import { MovingObject } from "../../../../movingObject";
-import { Utils } from "../../../../utils";
-import { PlayerManager } from "../../../playerManager";
 
 export class Bullet extends MovingObject {
     private posHistory: { x: number; y: number }[];
@@ -27,6 +21,7 @@ export class Bullet extends MovingObject {
         this.posHistory = [];
         this.distanceTraveled = 0;
     }
+    onDeath() {}
     show() {
         const p5 = this.p5 as P5;
 
@@ -54,12 +49,14 @@ export class Bullet extends MovingObject {
         this.distanceTraveled += this.speed;
         if (this.distanceTraveled >= this.maxRange) {
             this.destroyed = true;
+            this.onDeath();
         } else {
             const colliding = this.quadtreeUser.getCollision();
             
             for (let i = 0; i < colliding.length; i++) {
                 if(!(colliding[i] instanceof Bullet)){
                     this.destroyed = true;
+                    this.onDeath();
                     if(colliding[i] instanceof Enemie && !colliding[i].destroyed) {
                         (colliding[i] as Enemie).takeDamage(this);
                     }

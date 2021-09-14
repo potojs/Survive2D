@@ -17,8 +17,9 @@ export class Building extends GameObject {
         },
         public doesCollide: boolean,
         public name: string,
+        public playerSpeedUp: number,
         public type: EGameObject,
-        p5: P5
+        p5: P5,
     ) {
         super(x, y, doesCollide?ECollider.SQUARE:ECollider.NONE_SQUARE, BuildingManager.buildingSize, type, p5);
     }

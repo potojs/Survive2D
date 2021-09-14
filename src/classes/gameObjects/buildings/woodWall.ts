@@ -18,7 +18,7 @@ export class WoodWall extends Building {
         super(x, y, {
             wood: 2,
             stone: 0, iron: 0
-        }, true, "Wood Wall", EGameObject.WOOD_WALL, p5);
+        }, true, "Wood Wall", 0, EGameObject.WOOD_WALL, p5);
         this.woodLeft = 30;
     }
     getData(): IGameObject {

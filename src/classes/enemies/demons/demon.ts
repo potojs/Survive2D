@@ -7,7 +7,8 @@ import { EEnemie } from "../enemieManager";
 export class Demon extends Enemie {
     static health = 60;
     static size = 30;
-    static speed = 4;
+    static speed = 4.5;
+    static dayTimeSpeed = 2.2;
     static distToPlayer = 10;
 
     constructor(x: number, y: number, p5: P5, health?: number) {
@@ -20,6 +21,7 @@ export class Demon extends Enemie {
             EEnemie.DEMON,
             Demon.size,
             Demon.speed,
+            Demon.dayTimeSpeed,
             ETool.BLOOD_AXE,
             8,
             p5,

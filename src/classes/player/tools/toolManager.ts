@@ -23,6 +23,7 @@ import { ZombieHand } from "./hands/zombieHand";
 import { BloodAxe } from "./axes/bloodAxe";
 import { BigZombieHand } from "./hands/bigZombieHand";
 import { PapaDemonAxe } from "./axes/papaDemonAxe";
+import { grenadeLauncher } from "./guns/grenadeLauncher";
 
 export enum ETool {
     PLAYER_HAND,
@@ -44,7 +45,9 @@ export enum ETool {
     PISTOL,
     PUMP_SHOTGUN,
     HEAVY_SNIPER,
+    GRENADE_LAUNCHER,
     //
+    
     WOOD_FLOOR,
     WOOD_WALL,
     STONE_FLOOR,
@@ -94,6 +97,7 @@ export class ToolManager {
             new Pistol(),
             new PumpShotgun(),
             new heavySniper(),
+            new grenadeLauncher()
         ];
         for (const tool of ToolManager.playerTools) {
             tool.setup(p5);

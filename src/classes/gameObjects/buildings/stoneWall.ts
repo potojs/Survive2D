@@ -19,7 +19,7 @@ export class StoneWall extends Building {
         super(x, y, {
             stone: 2,
             wood: 0, iron: 0
-        }, true, "Stone Wall", EGameObject.STONE_WALL, p5);
+        }, true, "Stone Wall", 0, EGameObject.STONE_WALL, p5);
         this.stoneLeft = 30;
     }
     getData(): IGameObject {

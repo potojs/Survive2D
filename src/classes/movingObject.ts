@@ -49,7 +49,7 @@ export class MovingObject extends GameObject {
         )
     }
 
-    collide(object: GameObject, normVec: { x: number, y: number }, dt: number): GameObject[] {
+    collide(object: GameObject, normVec: { x: number, y: number }, speed: number, dt: number): GameObject[] {
         const gameObjectsCollidedWith = [];
         switch (object.colliderShape) {
             case ECollider.CIRCLE:
@@ -61,7 +61,7 @@ export class MovingObject extends GameObject {
                             this.pos.x - object.pos.x
                         )
                     );
-                    for(let i=0;i<this.speed*dt+1;i++) {
+                    for(let i=0;i<speed*dt+1;i++) {
                         if(this.isCollidingCircle(object)) {
                             this.pos.add(normVec);
                         }else{
@@ -71,7 +71,7 @@ export class MovingObject extends GameObject {
                 }
                 break;
             case ECollider.SQUARE:
-                for(let i=0;i<this.speed * dt;i++){
+                for(let i=0;i<speed * dt;i++){
                     if(this.isCollidingSquare(object)){
                         gameObjectsCollidedWith.push(object);
                         this.pos.x -= normVec.x / Math.abs(normVec.x) || 0;

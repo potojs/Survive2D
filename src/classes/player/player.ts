@@ -11,6 +11,7 @@ import { ParticuleManager } from "../particules/particuleManager";
 import { GameManager } from "../game/gameManager";
 import { EnemieManager } from "../enemies/enemieManager";
 import { quadtree } from "../../main";
+import { Building } from "../gameObjects/buildings/building";
 
 export class Player extends MovingObject {
     public selectedTool: ETool;
@@ -57,6 +58,16 @@ export class Player extends MovingObject {
         if(!GameManager.isNight && EnemieManager.enemies.length === 0) {
             this.health = Math.min(this.health + 0.5, 100);
         }
+        const collision = this.quadtreeUser.getCollision();
+        let speed = this.speed;
+        collision.map((elt: GameObject)=>{
+            if(elt.colliderShape === ECollider.NONE_SQUARE && elt instanceof Building) {
+                if(Utils.collideSquarePoint(elt, this.pos)) {
+                    speed += elt.playerSpeedUp;
+                }
+            }
+        })
+        this.vel.setMag(speed);
         this.pos.x += this.vel.x * dt;
         this.quadtreeUser.updateBy(this.vel.x * dt);
         
@@ -65,7 +76,7 @@ export class Player extends MovingObject {
             this.collide(collidingWithX[i], {
                 x: this.p5.abs(this.vel.x) / this.vel.x,
                 y: 0,
-            }, dt);
+            }, speed, dt);
         }
         this.quadtreeUser.update(this.pos.x, this.pos.y);
         this.pos.y += this.vel.y * dt;
@@ -76,7 +87,7 @@ export class Player extends MovingObject {
             this.collide(collidingWithY[i], {
                 x: 0,
                 y: this.p5.abs(this.vel.y) / this.vel.y,
-            }, dt);
+            }, speed, dt);
         }
         this.quadtreeUser.item.y = this.pos.y + MapManager.mapDimensions.h/2;
         this.boundries();

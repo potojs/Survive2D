@@ -18,7 +18,7 @@ export class IronWall extends Building {
         super(x, y, {
             iron: 2,
             wood: 0, stone: 0
-        }, true, "Iron Wall", EGameObject.IRON_WALL, p5);
+        }, true, "Iron Wall", 0, EGameObject.IRON_WALL, p5);
         this.ironLeft = 30;
     }
     getData(): IGameObject {

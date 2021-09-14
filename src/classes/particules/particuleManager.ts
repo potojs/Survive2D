@@ -2,6 +2,7 @@ import P5 from "p5";
 import { MovingObject } from "../movingObject";
 import { PlayerManager } from "../player/playerManager";
 import { IMaterialObject } from "../utils";
+import { ExplosionEffect } from "./explosionEffect";
 import { Particule } from "./particule";
 import { TextEffect } from "./text";
 
@@ -12,6 +13,11 @@ export class ParticuleManager {
     static lastTakenDamage: number;
     static lastTextEffect: TextEffect;
     static combo = 1;
+
+    static showExplosionEffect(x: number, y: number, radius: number, p5: P5) {
+        ParticuleManager.particules.push(new ExplosionEffect(x, y, radius, p5));
+    }
+
     static showCollectedMaterial(materialCollected: IMaterialObject, p5: P5) {
         const player = PlayerManager.player;
         let i = 0;
@@ -34,8 +40,7 @@ export class ParticuleManager {
         const lastTextEffect = ParticuleManager.lastTextEffect;
         const combo = ParticuleManager.combo;
 
-        if(damage === 0)
-            return;
+        if (damage === 0) return;
 
         if (
             lastTextEffect &&
@@ -46,8 +51,8 @@ export class ParticuleManager {
         ) {
             ParticuleManager.combo++;
             lastTextEffect.text = `-${combo} x ${damage}`;
-        } else if(
-            ParticuleManager.lastTakenDamage !== damage && 
+        } else if (
+            ParticuleManager.lastTakenDamage !== damage &&
             performance.now() - ParticuleManager.lastTakenDamageWasAt <= 50
         ) {
             ParticuleManager.combo = 0;

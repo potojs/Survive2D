@@ -49,7 +49,8 @@ export class SpriteManager {
                 ironSword: "ironSword",
                 pistol: "pistol",
                 pumpShotgun: "pumpShotgun",
-                heavySniper: "heavySniper"
+                heavySniper: "heavySniper",
+                grenadeLauncher: "grenadeLauncher"
             }
         }
     }

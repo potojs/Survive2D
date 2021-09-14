@@ -95,11 +95,11 @@ export class Utils {
         return Math.round(val * 10 ** presi) / 10 ** presi;
     }
     static collision(item1: IQuadtreeItem, item2: IQuadtreeItem): boolean {
-        if (
-            item1.collider === ECollider.NONE_SQUARE ||
-            item2.collider === ECollider.NONE_SQUARE
-        )
-            return false;
+        // if (
+        //     item1.collider === ECollider.NONE_SQUARE ||
+        //     item2.collider === ECollider.NONE_SQUARE
+        // )
+        //     return false;
 
         if (
             item1.collider === ECollider.CIRCLE &&
@@ -116,7 +116,8 @@ export class Utils {
             );
         }
         if (
-            item1.collider === ECollider.SQUARE &&
+            (item1.collider === ECollider.SQUARE ||
+                item1.collider === ECollider.NONE_SQUARE) &&
             item2.collider === ECollider.CIRCLE
         ) {
             return Utils.collideSquareCircle(
@@ -125,7 +126,8 @@ export class Utils {
             );
         }
         if (
-            item2.collider === ECollider.SQUARE &&
+            (item2.collider === ECollider.SQUARE ||
+                item2.collider === ECollider.NONE_SQUARE) &&
             item1.collider === ECollider.CIRCLE
         ) {
             return Utils.collideSquareCircle(
@@ -169,6 +171,21 @@ export class Utils {
                 (closestPoint.y - object2.pos.y) ** 2
         );
         return object2.size > dist;
+    }
+    static collideSquarePoint<
+        T extends ICollidableObject<P5.Vector>,
+        H extends P5.Vector
+    >(object: T, point: H): boolean {
+        const x = object.pos.x;
+        const y = object.pos.y;
+        const s = object.size;
+        // return true
+        return (
+            point.x < x + s &&
+            point.x > x - s &&
+            point.y < y + s &&
+            point.y > y - s
+        );
     }
     static collideSquareSquare<
         T extends ICollidableObject<P5.Vector>,

@@ -7,7 +7,8 @@ import { EEnemie } from "../enemieManager";
 export class MediumZombie extends Enemie {
     static health = 60;
     static size = 25;
-    static speed = 1.5;
+    static speed = 2.2;
+    static dayTimeSpeed = 0.5;
     static distToPlayer = 20;
 
     constructor(x: number, y: number, p5: P5, health?: number) {
@@ -20,6 +21,7 @@ export class MediumZombie extends Enemie {
             EEnemie.MEDIUM_ZOMBIE,
             MediumZombie.size,
             MediumZombie.speed,
+            MediumZombie.dayTimeSpeed,
             ETool.ZOMBIE_HAND,
             4,
             p5,
