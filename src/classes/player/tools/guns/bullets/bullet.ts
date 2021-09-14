@@ -1,5 +1,6 @@
 import P5 from "p5";
 import { Enemie } from "../../../../enemies/enemie";
+import { ECollider } from "../../../../gameObjects/gameObject";
 import { MovingObject } from "../../../../movingObject";
 
 export class Bullet extends MovingObject {
@@ -54,7 +55,7 @@ export class Bullet extends MovingObject {
             const colliding = this.quadtreeUser.getCollision();
             
             for (let i = 0; i < colliding.length; i++) {
-                if(!(colliding[i] instanceof Bullet)){
+                if(!(colliding[i] instanceof Bullet) && colliding[i].colliderShape !== ECollider.NONE_SQUARE){
                     this.destroyed = true;
                     this.onDeath();
                     if(colliding[i] instanceof Enemie && !colliding[i].destroyed) {

@@ -14,15 +14,15 @@ export class grenadeLauncher extends Gun {
             75,
             12,
             10,
-            1800,
+            1600,
             EBullet.GRENADE,
             12,
             "Grenade Launcher",
             ETool.GRENADE_LAUNCHER,
             {
-                wood: 1000,
-                stone: 1000,
-                iron: 1000,
+                wood: 2000,
+                stone: 2000,
+                iron: 2000,
             },
         );
     }

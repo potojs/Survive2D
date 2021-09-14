@@ -14,7 +14,7 @@ export class StoneFloor extends Building {
         super(x, y, {
             stone: 1,
             wood: 0, iron: 0
-        }, false, "Stone Floor", 1, EGameObject.STONE_FLOOR, p5);
+        }, false, "Stone Floor", 3, EGameObject.STONE_FLOOR, p5);
     }
     getData(): IGameObject {
         return {

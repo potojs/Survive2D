@@ -6,11 +6,11 @@ import { Utils } from "../../../../utils";
 import { Bullet } from "./bullet";
 
 export class Grenade extends Bullet {
-    public explosionRange = 30;
-    public explosionDamage = 25;
+    public explosionRange = 50;
+    public explosionDamage = 30;
 
     constructor(x: number, y: number, angle: number, p5: P5) {
-        super(x, y, 10, 5, angle, 500, 8, 0, p5);
+        super(x, y, 10, 5, angle, 600, 8, 0, p5);
     }
     onDeath() {
         const enemies = EnemieManager.enemies;

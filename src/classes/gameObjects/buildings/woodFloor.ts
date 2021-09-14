@@ -14,7 +14,7 @@ export class WoodFloor extends Building {
         super(x, y, {
             wood: 1,
             stone: 0, iron: 0
-        }, false, "Wood Floor", 0.6, EGameObject.WOOD_FLOOR, p5);
+        }, false, "Wood Floor", 1.5, EGameObject.WOOD_FLOOR, p5);
     }
     show() {
         const p5 = this.p5;
