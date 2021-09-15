@@ -316,6 +316,7 @@ canvas {
     border: solid 1px white;
     border-radius: 5px;
     width: clamp(200px, 25%, 300px);
+    z-index: 10000;
 }
 .tool-name {
     font-size: 2rem;
