@@ -48,8 +48,8 @@ export class Rock extends GameObject {
         this.stoneLeft = Utils.format(this.stoneLeft, 1);
 
         if(isPlayer) {
-            player.stoneAmt += (tool as MalayTool).damage.stone;
-            player.allStoneCollected+=(tool as MalayTool).damage.stone;
+            player.stoneAmt += Math.min((tool as MalayTool).damage.stone, this.stoneLeft);
+            player.allStoneCollected += Math.min((tool as MalayTool).damage.stone, this.stoneLeft);
             player.stoneAmt = Utils.format(player.stoneAmt, 1);
         }
 
