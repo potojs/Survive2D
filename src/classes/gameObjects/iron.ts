@@ -35,8 +35,9 @@ export class Iron extends GameObject {
         }
     }
     getHitBy(tool: Tool, isPlayer: boolean, materialCollected: { wood: number, stone: number, iron: number }) {
-        materialCollected.iron += Math.min((tool as MalayTool).damage.iron, this.ironLeft);
-        this.ironLeft -= (tool as MalayTool).damage.iron;
+        const ironTaken = Math.min((tool as MalayTool).damage.iron, this.ironLeft);
+        materialCollected.iron += ironTaken
+        this.ironLeft -= ironTaken
         
         if(this.ironLeft <= 0) {
             this.destroyed = true;
@@ -55,8 +56,8 @@ export class Iron extends GameObject {
 
         if(isPlayer) {
             const player = PlayerManager.player;
-            player.allIronCollected += Math.min((tool as MalayTool).damage.iron, this.ironLeft);
-            player.ironAmt += Math.min((tool as MalayTool).damage.iron, this.ironLeft);
+            player.allIronCollected += ironTaken;
+            player.ironAmt += ironTaken;
             player.ironAmt = Utils.format(player.ironAmt, 1);
         }
     }

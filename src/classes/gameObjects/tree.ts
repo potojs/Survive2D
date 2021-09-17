@@ -35,11 +35,12 @@ export class Tree extends GameObject {
         isPlayer: boolean,
         materialCollected: { wood: number; stone: number; iron: number }
     ) {
-        materialCollected.wood += Math.min(
+        const woodTaken = Math.min(
             (tool as MalayTool).damage.wood,
             this.woodLeft
         );
-        this.woodLeft -= (tool as MalayTool).damage.wood;
+        materialCollected.wood += woodTaken;
+        this.woodLeft -= woodTaken;
 
         if (this.woodLeft <= 0) {
             this.destroyed = true;
@@ -51,15 +52,9 @@ export class Tree extends GameObject {
 
         if (isPlayer) {
             const player = PlayerManager.player;
-            player.woodAmt += Math.min(
-                (tool as MalayTool).damage.wood,
-                this.woodLeft
-            );
-            player.allWoodCollected += Math.min(
-                (tool as MalayTool).damage.wood,
-                this.woodLeft
-            );
-            player.stoneAmt = Utils.format(player.stoneAmt, 1);
+            player.woodAmt += woodTaken;
+            player.allWoodCollected += woodTaken;
+            player.woodAmt = Utils.format(player.woodAmt, 1);
         }
     }
     show() {
