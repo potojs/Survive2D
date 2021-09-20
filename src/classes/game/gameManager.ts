@@ -97,7 +97,6 @@ export class GameManager {
     static endGame() {
         localStorage.clear();
         UIManager.showEndScreen();
-        GameManager.gamePaused = true;
         (
             document.querySelector(".number-days-survived") as HTMLSpanElement
         ).innerText = GameManager.day.toString();
@@ -106,6 +105,7 @@ export class GameManager {
         ).innerText = EnemieManager.numberEnemiesKilled.toString();
     }
     static update(dt: number) {
+        GameManager.gamePaused = (UIManager.popupsOpenned > 0);
         if (!GameManager.gamePaused) {
             const p5 = GameManager.p5;
             const player = PlayerManager.player;

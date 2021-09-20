@@ -27,7 +27,7 @@ html {
 
 .pause-menu {
     text-align: center;
-    z-index: 1000;
+    z-index: 100000000 !important;
 }
 
 .pause-menu .options {

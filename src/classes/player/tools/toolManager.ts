@@ -137,6 +137,7 @@ export class ToolManager {
             ".tool-upgrade-menu"
         ) as HTMLDivElement;
         upgradeMenu.classList.add("not-visible");
+        UIManager.popupsOpenned--;
         const materials = upgradeTool.unlockPrice || {
             wood: 0,
             stone: 0,
@@ -183,6 +184,7 @@ export class ToolManager {
             ".tool-buying-menu"
         ) as HTMLDivElement;
         buyingToolMenu.classList.add("not-visible");
+        UIManager.popupsOpenned--;
         PlayerManager.canPlayerMove = true;
         const materials = tool.unlockPrice || { wood: 0, stone: 0, iron: 0 };
         if (player.hasMaterials(materials)) {

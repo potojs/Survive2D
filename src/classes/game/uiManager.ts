@@ -28,6 +28,7 @@ export class UIManager {
         size: 120,
         handHeight: 50,
     };
+    static popupsOpenned = 0;
     static selectToolAt(index: number) {
         const toolsBtns = Array.from<HTMLDivElement>(
             document.querySelectorAll(".tool")!
@@ -45,7 +46,7 @@ export class UIManager {
         ) as HTMLDivElement;
         pauseMenu.classList.add("not-visible");
         blackBlur.classList.add("not-visible");
-        GameManager.gamePaused = false;
+        UIManager.popupsOpenned--;
         UIManager.pauseMenuOpened = false;
     }
     static openPauseMenu() {
@@ -57,7 +58,7 @@ export class UIManager {
         ) as HTMLDivElement;
         pauseMenu.classList.remove("not-visible");
         blackBlur.classList.remove("not-visible");
-        GameManager.gamePaused = true;
+        UIManager.popupsOpenned++;
         UIManager.pauseMenuOpened = true;
     }
     static setupPauseMenu() {
@@ -295,6 +296,7 @@ export class UIManager {
             ".game-ended-screen"
         ) as HTMLDivElement;
         endScreen.classList.remove("not-visible");
+        UIManager.popupsOpenned++;
         const player = PlayerManager.player;
         player.allWoodCollected = Utils.format(player.allWoodCollected, 1);
         player.allStoneCollected = Utils.format(player.allStoneCollected, 1);
@@ -339,6 +341,7 @@ export class UIManager {
             if (tool.upgrade) {
                 buyingToolMenu.classList.add("not-visible");
                 upgradeMenu.classList.remove("not-visible");
+                UIManager.popupsOpenned++;
                 const upgrade = ToolManager.getPlayerTool(tool.upgrade);
                 const oldToolCol = document.querySelector(
                     ".column.old-tool"
@@ -367,6 +370,7 @@ export class UIManager {
 
             upgradeMenu.classList.add("not-visible");
             buyingToolMenu.classList.remove("not-visible");
+            UIManager.popupsOpenned++;
 
             UIManager.fillStats(buyingToolMenu, tool);
             const toolPriceElt = buyingToolMenu.querySelector(
@@ -383,6 +387,7 @@ export class UIManager {
             ".alert-popup-msg"
         ) as HTMLDivElement;
         alertPopup.classList.remove("not-visible");
+        UIManager.popupsOpenned++;
         const alertPopupMsgElt = alertPopup.querySelector(
             "p"
         ) as HTMLParagraphElement;
@@ -418,6 +423,7 @@ export class UIManager {
                 ".alert-popup-msg"
             ) as HTMLDivElement;
             alertPopup.classList.add("not-visible");
+            UIManager.popupsOpenned--;
         });
         const toolBuyingBtn = document.querySelector(
             ".tool-buy-btn"
@@ -436,6 +442,7 @@ export class UIManager {
                 ".tool-upgrade-menu"
             ) as HTMLDivElement;
             upgradeToolMenu.classList.add("not-visible");
+            UIManager.popupsOpenned--;
             PlayerManager.canPlayerMove = true;
         });
         const closeBuyingPopup = document.querySelector(
@@ -446,6 +453,7 @@ export class UIManager {
                 ".tool-buying-menu"
             ) as HTMLDivElement;
             buyingToolMenu.classList.add("not-visible");
+            UIManager.popupsOpenned--;
             PlayerManager.canPlayerMove = true;
         });
         document
