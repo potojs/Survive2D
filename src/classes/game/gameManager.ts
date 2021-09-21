@@ -103,6 +103,7 @@ export class GameManager {
         (
             document.querySelector(".number-enemies-killed") as HTMLSpanElement
         ).innerText = EnemieManager.numberEnemiesKilled.toString();
+        GameManager.gamePaused = true;
     }
     static update(dt: number) {
         GameManager.gamePaused = (UIManager.popupsOpenned > 0);
