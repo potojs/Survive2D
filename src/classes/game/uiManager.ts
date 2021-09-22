@@ -338,7 +338,7 @@ export class UIManager {
             // open the upgrade menu
             // PlayerManager.canPlayerMove = false;
             const tool = ToolManager.getPlayerTool(toolIndex);
-            if (tool.upgrade) {
+            if (tool.upgrade && upgradeMenu.classList.contains("not-visible")) {
                 buyingToolMenu.classList.add("not-visible");
                 upgradeMenu.classList.remove("not-visible");
                 UIManager.popupsOpenned++;
@@ -361,7 +361,7 @@ export class UIManager {
             }
         } else if (toolElt.classList.contains("unlocked")) {
             PlayerManager.player.selectedTool = toolIndex;
-        } else {
+        } else if(buyingToolMenu.classList.contains("not-visible")) {
             // open the unlock menu
             PlayerManager.canPlayerMove = false;
             const tool = ToolManager.getPlayerTool(toolIndex);
