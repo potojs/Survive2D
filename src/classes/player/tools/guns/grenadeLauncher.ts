@@ -22,7 +22,7 @@ export class grenadeLauncher extends Gun {
             {
                 wood: 2000,
                 stone: 2000,
-                iron: 2000,
+                iron: 1000,
             },
         );
     }
