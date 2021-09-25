@@ -40,19 +40,19 @@ export class MapManager {
             boxSize: 200,
             boxPadding: 50,
             percentage: 0.5,
-            max: 100,
+            max: 200,
             count: 0,
         },
         rock: {
             boxSize: 300,
             limit: 100,
-            max: 50,
+            max: 120,
             count: 0,
         },
         iron: {
             boxSize: 300,
             min: 5,
-            max: 20,
+            max: 80,
             count: 0,
         },
     };
@@ -193,7 +193,7 @@ export class MapManager {
                 MapManager.gameObjects.push(new Iron(x, y, p5));
                 MapManager.objectDensity.iron.count++;
             }
-        }, 4000);
+        }, 2000);
     }
     static genIron(p5: P5) {
         const boxSize = MapManager.objectDensity.iron.boxSize;
