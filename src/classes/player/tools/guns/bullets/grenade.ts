@@ -7,7 +7,7 @@ import { Bullet } from "./bullet";
 
 export class Grenade extends Bullet {
     public explosionRange = 80;
-    public explosionDamage = 40;
+    public explosionDamage = 60;
 
     constructor(x: number, y: number, angle: number, p5: P5) {
         super(x, y, 10, 5, angle, 600, 8, 0, p5);

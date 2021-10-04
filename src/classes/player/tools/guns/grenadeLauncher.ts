@@ -14,7 +14,7 @@ export class grenadeLauncher extends Gun {
             75,
             12,
             10,
-            2000,
+            1500,
             EBullet.GRENADE,
             12,
             "Grenade Launcher",
